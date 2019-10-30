@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1083826176385",
-    "firebase_url": "https://androidrecycleviewapp.firebaseio.com",
-    "project_id": "androidrecycleviewapp",
-    "storage_bucket": "androidrecycleviewapp.appspot.com"
+    "project_number": "205976111369",
+    "firebase_url": "https://recycleviewtest-c4695.firebaseio.com",
+    "project_id": "recycleviewtest-c4695",
+    "storage_bucket": "recycleviewtest-c4695.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1083826176385:android:23ad3afe9e92eacdfba880",
+        "mobilesdk_app_id": "1:205976111369:android:42427f990239590f5b2bd8",
         "android_client_info": {
           "package_name": "com.example.recycleviewtest"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1083826176385-c3u71gsba1fca7fbl8spmsb5f0n4q91f.apps.googleusercontent.com",
+          "client_id": "205976111369-7q2aqcokbg08e1vqrki5er6mc1bbrtq4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDqI2Oq_5GXPQKqtdbyCnQTfqn95XFYl9I"
+          "current_key": "AIzaSyBe85sz4NdKDtRPUVwVjSwUN4nFlf9ZQFw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1083826176385-c3u71gsba1fca7fbl8spmsb5f0n4q91f.apps.googleusercontent.com",
+              "client_id": "205976111369-7q2aqcokbg08e1vqrki5er6mc1bbrtq4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

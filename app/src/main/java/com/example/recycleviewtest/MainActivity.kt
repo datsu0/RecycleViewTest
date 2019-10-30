@@ -1,8 +1,5 @@
 package com.example.recycleviewtest
 
-
-import android.app.Activity
-import android.content.ClipData
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,35 +7,30 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.list_item.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
 
 
 class MainActivity : AppCompatActivity() {
 
     var dataList = mutableListOf<DataModel>()
-    val db = FirebaseFirestore.getInstance()
     private val TAG = "MyActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("Life Cycle", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        val db = FirebaseFirestore.getInstance()
         val recyclerView = recycler_list
 
         //dataList = createDataList()
@@ -51,49 +43,52 @@ class MainActivity : AppCompatActivity() {
 
 
         button.setOnClickListener{
+            val detail : String = edit_text.text.toString()
             if(!TextUtils.isEmpty(edit_text.text.toString())){
                 val data :DataModel = DataModel().also{
-                    it.detail =edit_text.text.toString()
+                    it.detail =detail
                     it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
                 }
+
                 dataList.add(data)
-                adapter.notifyDataSetChanged()
+                recyclerView.setHasFixedSize(true)
+                recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
+                recyclerView.adapter = adapter
 
-                firebase.firestore.collection('hoge').add({
-                        id:1,
-                        name:taro
-                })
-                firebase.firestore.collection('hoge').doc('huga').add({
-                        id:1,
-                        name:taro
-                })
+                val dataMap = hashMapOf(
+                    "detail" to detail,
+                    "title" to SimpleDateFormat("yyyy/MM/dd").format(Date())
+                )
 
-//                val db = FirebaseFirestore.getInstance()
-//                val user = hashMapOf(
-//                    "first" to "Ada",
-//                    "last" to "Lovelace",
-//                    "born" to 1815
-//                )
-//
-//// Add a new document with a generated ID
-//                db.collection("users")
-//                    .add(user)
-//                    .addOnSuccessListener { documentReference ->
-//                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-//                    }
-//                    .addOnFailureListener { e ->
-//                        Log.w(TAG, "Error adding document", e)
-//                    }
+                db.collection("users")
+                    .add(dataMap)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
 
+//                Log.d("read Button","path the on ClickListener")
+
+
+                val getData : CollectionReference = db.collection("users")
+                getData.get()
+                    .addOnSuccessListener { result ->
+                        for (document in result) {
+                            Log.d(TAG, "${document.id} => ${document.data}")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "Error getting documents: ", exception)
+                    }
+
+                for(key in dataMap.keys){
+                    println("Element at key $key : ${dataMap[key]}")
+                }
             }
         }
 
-
-
-
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
-        recyclerView.adapter = adapter
         val swipeToDismissTouchHelper = getSwipeToDismissTouchHelper(adapter)
         swipeToDismissTouchHelper.attachToRecyclerView(recyclerView)
     }
