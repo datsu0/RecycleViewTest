@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -15,16 +16,20 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
     var dataList = mutableListOf<DataModel>()
     private val TAG = "MyActivity"
+    var groupIdList = listOf<DataModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("Life Cycle", "onCreate")
@@ -42,6 +47,78 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        val getData : CollectionReference = db.collection("users")
+        getData
+            .get()
+            .addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null && document.toObjects(DataModel::class.java) != null) {
+                        val userList = document.toObjects(DataModel::class.java)
+                        Log.d(TAG, "getDataAll")
+                        Log.d(TAG, "userList.size " + userList.size)
+
+                        for(i in 0 until  userList.size){
+                            val data : DataModel = DataModel().also {
+                                it.detail = userList.get(i).detail
+                                it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
+                            }
+                            dataList.add(data)
+                            Log.d(TAG, "userList.get(" + i + ").detail " + userList.get(i).detail)
+                            Log.d(TAG, "userList.get(" + i + ").title " + userList.get(i).title)
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+//            .addOnSuccessListener { documentSnapshot ->
+//                for(begin in documentSnapshot.documents){
+//                    val hashmap = begin.data
+//                    hashmap?.put("id",begin.id)
+//                    val Data = Gson().toJson(hashmap)
+//                    val docsData = Gson().fromJson<String>(Data,String::class.java)
+//                    Log.e("docsData",docsData)
+//                }
+//            }
+
+
+//            .addOnSuccessListener { documentSnapshot ->
+//                val dataText = documentSnapshot.toObjects(DataModel::class.java)
+//                groupIdList=dataText.toList()
+//                if(groupIdList.isEmpty()){
+//                    for(i in 1..groupIdList.size){
+//                        dataList.add(groupIdList.get(i))
+//                    }
+//                }
+//                for (document in documentSnapshot) {
+//                    Log.d(TAG, "${document.id} => ${document.data}")
+//                }
+//            }
+//            .addOnSuccessListener {
+//                    result ->
+//                for (document in result) {
+//                    Log.d(TAG, "${document.id} => ${document.data}")
+//                }
+//
+//
+//
+////                if(it.isEmpty)return@addOnSuccessListener
+////                val dataDocumentList = it.documents
+////                dataDocumentList.forEach{
+////                    groupIdList.add(it.id)
+////                }
+//
+//            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+
+
+
+
+
+        //button
         button.setOnClickListener{
             val detail : String = edit_text.text.toString()
             if(!TextUtils.isEmpty(edit_text.text.toString())){
@@ -72,20 +149,9 @@ class MainActivity : AppCompatActivity() {
 //                Log.d("read Button","path the on ClickListener")
 
 
-                val getData : CollectionReference = db.collection("users")
-                getData.get()
-                    .addOnSuccessListener { result ->
-                        for (document in result) {
-                            Log.d(TAG, "${document.id} => ${document.data}")
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d(TAG, "Error getting documents: ", exception)
-                    }
-
-                for(key in dataMap.keys){
-                    println("Element at key $key : ${dataMap[key]}")
-                }
+//                for(key in dataMap.keys){
+//                    println("Element at key $key : ${dataMap[key]}")
+//                }
             }
         }
 
