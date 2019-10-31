@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.list_item.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,22 +31,15 @@ class MainActivity : AppCompatActivity() {
     var dataList = mutableListOf<DataModel>()
     private val TAG = "MyActivity"
     var groupIdList = listOf<DataModel>()
+    val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("Life Cycle", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val db = FirebaseFirestore.getInstance()
         val recyclerView = recycler_list
 
         //dataList = createDataList()
-
-        val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
-            override fun onClickRow(tappedView: View, rowModel: DataModel) {
-                //Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
-            }
-        })
-
 
         val getData : CollectionReference = db.collection("users")
         getData
@@ -57,11 +51,10 @@ class MainActivity : AppCompatActivity() {
                         val userList = document.toObjects(DataModel::class.java)
                         Log.d(TAG, "getDataAll")
                         Log.d(TAG, "userList.size " + userList.size)
-
-                        for(i in 0 until  userList.size){
+                        for(i in 1 until  userList.size){
                             val data : DataModel = DataModel().also {
                                 it.detail = userList.get(i).detail
-                                it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
+                                it.title = userList.get(i).title
                             }
                             dataList.add(data)
                             Log.d(TAG, "userList.get(" + i + ").detail " + userList.get(i).detail)
@@ -114,7 +107,15 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "Error getting documents: ", exception)
             }
 
+        val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
+            override fun onClickRow(tappedView: View, rowModel: DataModel) {
+                //Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
+            }
+        })
 
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
+        recyclerView.adapter = adapter
 
 
 
@@ -138,9 +139,11 @@ class MainActivity : AppCompatActivity() {
                 )
 
                 db.collection("users")
-                    .add(dataMap)
+                    //.add(dataMap)
+                    .document(detail)
+                    .set(dataMap)
                     .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
@@ -190,8 +193,17 @@ class MainActivity : AppCompatActivity() {
             //スワイプ時に実行
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 //データリストからスワイプしたデータを削除
+                val deleteData = dataList[viewHolder.adapterPosition].detail
+                println(deleteData +" find delete position "+viewHolder.adapterPosition)
                 dataList.removeAt(viewHolder.adapterPosition)
 
+
+
+                db.collection("users")
+                    .document(deleteData)
+                    .delete()
+                    .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+                    .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
                 //リストからスワイプしたカードを削除
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
             }
