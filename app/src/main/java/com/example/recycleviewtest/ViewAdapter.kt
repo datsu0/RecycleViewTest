@@ -37,4 +37,5 @@ class ViewAdapter(private val list: List<DataModel>, private val listener: ListL
     interface ListListener {
         fun onClickRow(tappedView: View, rowModel: DataModel)
     }
+
 }

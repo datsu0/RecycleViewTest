@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.recycleviewtest"
-        minSdkVersion 29
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -38,6 +38,9 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
+    implementation 'com.android.support:design:29.1.0'
+    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.google.android.material:material:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

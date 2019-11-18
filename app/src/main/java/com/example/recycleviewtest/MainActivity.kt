@@ -4,27 +4,23 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.text.TextUtils
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
+import com.github.clans.fab.FloatingActionButton
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.list_item.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,12 +29,13 @@ class MainActivity : AppCompatActivity() {
     var groupIdList = listOf<DataModel>()
     val db = FirebaseFirestore.getInstance()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("Life Cycle", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val recyclerView = recycler_list
 
+        val recyclerView = recycler_list
         //dataList = createDataList()
 
         val getData : CollectionReference = db.collection("users")
@@ -65,89 +62,157 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "No such document")
                 }
             }
-//            .addOnSuccessListener { documentSnapshot ->
-//                for(begin in documentSnapshot.documents){
-//                    val hashmap = begin.data
-//                    hashmap?.put("id",begin.id)
-//                    val Data = Gson().toJson(hashmap)
-//                    val docsData = Gson().fromJson<String>(Data,String::class.java)
-//                    Log.e("docsData",docsData)
-//                }
-//            }
-
-
-//            .addOnSuccessListener { documentSnapshot ->
-//                val dataText = documentSnapshot.toObjects(DataModel::class.java)
-//                groupIdList=dataText.toList()
-//                if(groupIdList.isEmpty()){
-//                    for(i in 1..groupIdList.size){
-//                        dataList.add(groupIdList.get(i))
-//                    }
-//                }
-//                for (document in documentSnapshot) {
-//                    Log.d(TAG, "${document.id} => ${document.data}")
-//                }
-//            }
-//            .addOnSuccessListener {
-//                    result ->
-//                for (document in result) {
-//                    Log.d(TAG, "${document.id} => ${document.data}")
-//                }
-//
-//
-//
-////                if(it.isEmpty)return@addOnSuccessListener
-////                val dataDocumentList = it.documents
-////                dataDocumentList.forEach{
-////                    groupIdList.add(it.id)
-////                }
-//
-//            }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
             }
 
         val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
             override fun onClickRow(tappedView: View, rowModel: DataModel) {
-                //Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
             }
         })
+        adapter.notifyDataSetChanged()
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
         recyclerView.adapter = adapter
 
+        //fab
+        val fabMain:View = findViewById<FloatingActionButton>(R.id.fabMain)
+        val fab1:View = findViewById(R.id.fab1)
+        val fab2:View = findViewById<FloatingActionButton>(R.id.fab2)
+        val fabBack:View = findViewById(R.id.fabBack)
+        val text1:TextView = findViewById(R.id.fabtext1)
+        val text2:TextView = findViewById(R.id.fabtext2)
+
+        fabMain.visibility = View.VISIBLE
+        fab1.visibility = View.GONE
+        fab2.visibility = View.GONE
+        fabBack.visibility = View.GONE
+        text1.visibility = View.GONE
+        text2.visibility = View.GONE
+
+        fabMain.setOnClickListener{view ->
+            fabMain.visibility = View.GONE
+            fab1.visibility = View.VISIBLE
+            fab2.visibility = View.VISIBLE
+            fabBack.visibility = View.VISIBLE
+            text1.visibility = View.VISIBLE
+            text2.visibility = View.VISIBLE
+
+            //view.visibility = View.GONE
+            fabBack.setOnClickListener { v ->
+                fabMain.visibility = View.VISIBLE
+                fab1.visibility = View.GONE
+                fab2.visibility = View.GONE
+                fabBack.visibility = View.GONE
+                text1.visibility = View.GONE
+                text2.visibility = View.GONE
+            }
+
+            fab1.setOnClickListener { v ->
+                val editText = EditText(this@MainActivity)
+                AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                    .setTitle("追加")
+                    .setMessage("何をしたか入力")
+                    .setView(editText)
+                    .setPositiveButton("OK") { dialog, which ->
+                        if (editText.text.toString() == "" == true) {
+                            val toast = Toast.makeText(
+                                this@MainActivity,
+                                String.format("fill out blank"),
+                                Toast.LENGTH_LONG
+                            )
+                            toast.setGravity(Gravity.TOP, 0, 150)
+                            toast.show()
+                        }
+                        addDataBase(editText)
+                    }
+                    .show()
+
+                fabMain.visibility = View.VISIBLE
+                fab1.visibility = View.GONE
+                fab2.visibility = View.GONE
+                fabBack.visibility = View.GONE
+                text1.visibility = View.GONE
+                text2.visibility = View.GONE
+            }
+
+            fab2.setOnClickListener { v ->
+                val editText = EditText(this@MainActivity)
+                AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                    .setTitle("追加")
+                    .setMessage("何をしたか入力")
+                    .setView(editText)
+                    .setPositiveButton("OK") { dialog, which ->
+                        if (editText.text.toString() == "" == true) {
+                            val toast = Toast.makeText(
+                                this@MainActivity,
+                                String.format("fill out blank"),
+                                Toast.LENGTH_LONG
+                            )
+                            toast.setGravity(Gravity.TOP, 0, 150)
+                            toast.show()
+                        }
+                        addDataBase(editText)
+                    }
+                    .show()
+
+                fabMain.visibility = View.VISIBLE
+                fab1.visibility = View.GONE
+                fab2.visibility = View.GONE
+                fabBack.visibility = View.GONE
+                text1.visibility = View.GONE
+                text2.visibility = View.GONE
+            }
 
 
-        //button
-        button.setOnClickListener{
-            val detail : String = edit_text.text.toString()
-            if(!TextUtils.isEmpty(edit_text.text.toString())){
-                val data :DataModel = DataModel().also{
-                    it.detail =detail
-                    it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
+
+        }
+
+        val swipeToDismissTouchHelper = getSwipeToDismissTouchHelper(adapter)
+        swipeToDismissTouchHelper.attachToRecyclerView(recyclerView)
+
+    }
+
+
+
+    private fun addDataBase(edit_text:EditText){
+        val detail : String = edit_text.text.toString()
+        if(!TextUtils.isEmpty(edit_text.text.toString())){
+            val data :DataModel = DataModel().also{
+                it.detail =detail
+                it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
+            }
+
+            val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
+                override fun onClickRow(tappedView: View, rowModel: DataModel) {
+                    Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
                 }
+            })
+            adapter.notifyDataSetChanged()
 
-                dataList.add(data)
-                recyclerView.setHasFixedSize(true)
-                recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
-                recyclerView.adapter = adapter
+            dataList.add(data)
+            val recyclerView = recycler_list
+            recyclerView.setHasFixedSize(true)
+            recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
+            recyclerView.adapter = adapter
 
-                val dataMap = hashMapOf(
-                    "detail" to detail,
-                    "title" to SimpleDateFormat("yyyy/MM/dd").format(Date())
-                )
+            val dataMap = hashMapOf(
+                "detail" to detail,
+                "title" to SimpleDateFormat("yyyy/MM/dd").format(Date())
+            )
 
-                db.collection("users")
-                    //.add(dataMap)
-                    .document(detail)
-                    .set(dataMap)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
+            db.collection("users")
+                //.add(dataMap)
+                .document(detail)
+                .set(dataMap)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
 
 //                Log.d("read Button","path the on ClickListener")
 
@@ -155,12 +220,9 @@ class MainActivity : AppCompatActivity() {
 //                for(key in dataMap.keys){
 //                    println("Element at key $key : ${dataMap[key]}")
 //                }
-            }
         }
-
-        val swipeToDismissTouchHelper = getSwipeToDismissTouchHelper(adapter)
-        swipeToDismissTouchHelper.attachToRecyclerView(recyclerView)
     }
+
 
 
 //    private fun createDataList(): MutableList<DataModel> {
