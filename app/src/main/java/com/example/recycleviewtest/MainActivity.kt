@@ -1,5 +1,6 @@
 package com.example.recycleviewtest
 
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -14,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.clans.fab.FloatingActionButton
 import com.google.firebase.firestore.CollectionReference
@@ -21,22 +23,33 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    var dataList = mutableListOf<DataModel>()
+    var dataList = ArrayList<DataModel>()
     private val TAG = "MyActivity"
     var groupIdList = listOf<DataModel>()
     val db = FirebaseFirestore.getInstance()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("Life Cycle", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recyclerView = recycler_list
+        //val recyclerView = recycler_list
         //dataList = createDataList()
+
+        val viewAdapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
+            override fun onClickRow(tappedView: View, rowModel: DataModel) {
+                Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
+                val intent = Intent(this@MainActivity, SubActivity::class.java)
+                //intent.putExtra("num", rowModel.detail)
+                startActivity(intent)
+            }
+        })
 
         val getData : CollectionReference = db.collection("users")
         getData
@@ -53,7 +66,8 @@ class MainActivity : AppCompatActivity() {
                                 it.detail = userList.get(i).detail
                                 it.title = userList.get(i).title
                             }
-                            dataList.add(data)
+                            //dataList.add(data)
+                            viewAdapter.add(data)
                             Log.d(TAG, "userList.get(" + i + ").detail " + userList.get(i).detail)
                             Log.d(TAG, "userList.get(" + i + ").title " + userList.get(i).title)
                         }
@@ -66,16 +80,14 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "Error getting documents: ", exception)
             }
 
-        val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
-            override fun onClickRow(tappedView: View, rowModel: DataModel) {
-                Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
-            }
-        })
-        adapter.notifyDataSetChanged()
 
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
-        recyclerView.adapter = adapter
+        viewManager = LinearLayoutManager(this)
+
+        recyclerView = findViewById<RecyclerView>(R.id.recycler_list).apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
 
         //fab
         val fabMain:View = findViewById<FloatingActionButton>(R.id.fabMain)
@@ -165,38 +177,34 @@ class MainActivity : AppCompatActivity() {
                 text1.visibility = View.GONE
                 text2.visibility = View.GONE
             }
-
-
-
         }
-
-        val swipeToDismissTouchHelper = getSwipeToDismissTouchHelper(adapter)
+        val swipeToDismissTouchHelper = getSwipeToDismissTouchHelper(viewAdapter)
         swipeToDismissTouchHelper.attachToRecyclerView(recyclerView)
-
     }
-
 
 
     private fun addDataBase(edit_text:EditText){
         val detail : String = edit_text.text.toString()
+            //get from database
         if(!TextUtils.isEmpty(edit_text.text.toString())){
-            val data :DataModel = DataModel().also{
-                it.detail =detail
-                it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
-            }
+//            val data :DataModel = DataModel().also{
+//                it.detail =detail
+//                it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
+//            }
+//            dataList.add(data)
 
-            val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
-                override fun onClickRow(tappedView: View, rowModel: DataModel) {
-                    Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
-                }
-            })
-            adapter.notifyDataSetChanged()
 
-            dataList.add(data)
-            val recyclerView = recycler_list
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
-            recyclerView.adapter = adapter
+//            val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
+//                override fun onClickRow(tappedView: View, rowModel: DataModel) {
+//                    Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
+//                }
+//            })
+//            adapter.notifyDataSetChanged()
+
+//            val recyclerView = recycler_list
+//            recyclerView.setHasFixedSize(true)
+//            recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(applicationContext)
+//            recyclerView.adapter = adapter
 
             val dataMap = hashMapOf(
                 "detail" to detail,

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 
-class ViewAdapter(private val list: List<DataModel>, private val listener: ListListener) :
+class ViewAdapter(private val list: ArrayList<DataModel>, private val listener: ListListener) :
     androidx.recyclerview.widget.RecyclerView.Adapter<HomeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -27,7 +27,17 @@ class ViewAdapter(private val list: List<DataModel>, private val listener: ListL
 
     }
 
+    fun add(data:DataModel){
+        list.add(data)
+        notifyDataSetChanged()
+    }
 
+    fun Delete(position: Int):DataModel{
+        list.removeAt(position)
+        notifyItemChanged(position)
+        notifyDataSetChanged()
+        return list[position]
+    }
 
     override fun getItemCount(): Int {
         Log.d("Life Cycle", "getItemCount")
