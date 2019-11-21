@@ -31,10 +31,15 @@ class SubActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub)
         initViews()
+        var textView:TextView = findViewById<TextView>(R.id.text)
+        val intent = intent
+        val data = intent.getStringExtra("text")
+        textView.setText(data+"　:　数値入力")
     }
 
 
     private fun initViews() {
+
         var numPicker: NumberPicker = findViewById<NumberPicker>(R.id.numPicker0) as NumberPicker
         var numPicker1: NumberPicker = findViewById<NumberPicker>(R.id.numPicker1) as NumberPicker
         var numPicker2: NumberPicker = findViewById<NumberPicker>(R.id.numPicker2) as NumberPicker
@@ -69,9 +74,9 @@ class SubActivity : AppCompatActivity() {
                     numPicker3.value * 1000 + numPicker4.value * 10000
 
 
-            val intent = intent
+
             val num = intent.getIntExtra("num", 0)
-            val data = intent.getStringExtra("data")
+
             //Toast.makeText(SubActivity.this,data,Toast.LENGTH_SHORT).show();
 //            val sp = getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
 //            val e = sp.edit()

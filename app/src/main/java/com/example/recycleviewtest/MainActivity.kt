@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             override fun onClickRow(tappedView: View, rowModel: DataModel) {
                 Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
                 val intent = Intent(this@MainActivity, SubActivity::class.java)
-                //intent.putExtra("num", rowModel.detail)
+                intent.putExtra("text", rowModel.detail)
                 startActivity(intent)
             }
         })
@@ -187,19 +187,18 @@ class MainActivity : AppCompatActivity() {
         val detail : String = edit_text.text.toString()
             //get from database
         if(!TextUtils.isEmpty(edit_text.text.toString())){
-//            val data :DataModel = DataModel().also{
-//                it.detail =detail
-//                it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
-//            }
-//            dataList.add(data)
+            val data :DataModel = DataModel().also{
+                it.detail =detail
+                it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
+            }
+            dataList.add(data)
 
-
-//            val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
-//                override fun onClickRow(tappedView: View, rowModel: DataModel) {
-//                    Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
-//                }
-//            })
-//            adapter.notifyDataSetChanged()
+            val adapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
+                override fun onClickRow(tappedView: View, rowModel: DataModel) {
+                    Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
+                }
+            })
+            adapter.notifyDataSetChanged()
 
 //            val recyclerView = recycler_list
 //            recyclerView.setHasFixedSize(true)
@@ -266,7 +265,6 @@ class MainActivity : AppCompatActivity() {
                 val deleteData = dataList[viewHolder.adapterPosition].detail
                 println(deleteData +" find delete position "+viewHolder.adapterPosition)
                 dataList.removeAt(viewHolder.adapterPosition)
-
 
 
                 db.collection("users")

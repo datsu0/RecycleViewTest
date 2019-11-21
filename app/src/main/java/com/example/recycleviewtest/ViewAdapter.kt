@@ -32,7 +32,7 @@ class ViewAdapter(private val list: ArrayList<DataModel>, private val listener: 
         notifyDataSetChanged()
     }
 
-    fun Delete(position: Int):DataModel{
+    fun delete(position: Int):DataModel{
         list.removeAt(position)
         notifyItemChanged(position)
         notifyDataSetChanged()
