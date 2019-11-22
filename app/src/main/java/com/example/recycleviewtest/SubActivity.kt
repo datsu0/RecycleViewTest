@@ -10,6 +10,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.NumberPicker
@@ -17,15 +19,19 @@ import android.widget.TextView
 import android.widget.Toast
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.FirebaseFirestore
 
 import org.w3c.dom.Text
 
 import java.io.Serializable
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class SubActivity : AppCompatActivity() {
     private val figures = arrayOfNulls<String>(5)
+    val db = FirebaseFirestore.getInstance()
+    private val TAG = "SubActivity"
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,7 @@ class SubActivity : AppCompatActivity() {
         initViews()
         var textView:TextView = findViewById<TextView>(R.id.text)
         val intent = intent
-        val data = intent.getStringExtra("text")
+        val data = intent.getStringExtra("detail")
         textView.setText(data+"　:　数値入力")
     }
 
@@ -74,9 +80,10 @@ class SubActivity : AppCompatActivity() {
                     numPicker3.value * 1000 + numPicker4.value * 10000
 
 
-
+            val detail = intent.getStringExtra("detail")
             val num = intent.getIntExtra("num", 0)
-
+            val unit = intent.getStringExtra("unit")
+            rewriteDataBase(detail,num+getNum,unit)
             //Toast.makeText(SubActivity.this,data,Toast.LENGTH_SHORT).show();
 //            val sp = getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
 //            val e = sp.edit()
@@ -93,5 +100,27 @@ class SubActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    private fun rewriteDataBase(detail:String,num:Int,unit:String){
+
+
+        val dataMap = hashMapOf(
+            "detail" to detail,
+            "title" to SimpleDateFormat("yyyy/MM/dd").format(Date()),
+            "num" to num,
+            "unit" to unit
+        )
+
+        db.collection("users")
+            //.add(dataMap)
+            .document(detail)
+            .set(dataMap)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
     }
 }

@@ -28,7 +28,6 @@
 <!--        android:background="#ffffff"-->
 <!--        android:hint="入力して下さい"/>-->
 
-
     <include
         layout="@layout/content_main"
         tools:layout_editor_absoluteX="-42dp"
@@ -167,6 +166,5 @@
         tools:ignore="MissingConstraints"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

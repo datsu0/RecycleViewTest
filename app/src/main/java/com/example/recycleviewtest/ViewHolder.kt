@@ -8,5 +8,6 @@ class HomeViewHolder(itemView: View) :
     androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
     val titleView: TextView = itemView.findViewById(R.id.row_title)
     val detailView: TextView = itemView.findViewById(R.id.row_detail)
-
+    val numView: TextView = itemView.findViewById(R.id.row_num)
+    val unitView: TextView = itemView.findViewById(R.id.row_unit)
 }

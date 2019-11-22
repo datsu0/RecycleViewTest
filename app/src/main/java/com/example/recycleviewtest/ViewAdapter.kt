@@ -21,6 +21,9 @@ class ViewAdapter(private val list: ArrayList<DataModel>, private val listener: 
         Log.d("Life Cycle", "onBindViewHolder")
         holder.titleView.text = list[position].title
         holder.detailView.text = list[position].detail
+        holder.unitView.text = list[position].unit
+        holder.numView.text = list[position].num.toString()
+
         holder.itemView.setOnClickListener {
             listener.onClickRow(it, list[position])
         }

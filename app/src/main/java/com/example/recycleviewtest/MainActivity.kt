@@ -29,27 +29,30 @@ class MainActivity : AppCompatActivity() {
 
     var dataList = ArrayList<DataModel>()
     private val TAG = "MyActivity"
-    var groupIdList = listOf<DataModel>()
     val db = FirebaseFirestore.getInstance()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val reDetail:String
+        val reNum:String
 
         //val recyclerView = recycler_list
         //dataList = createDataList()
 
         val viewAdapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
             override fun onClickRow(tappedView: View, rowModel: DataModel) {
-                Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
+                //Toast.makeText(applicationContext, rowModel.title, Toast.LENGTH_LONG).show()
                 val intent = Intent(this@MainActivity, SubActivity::class.java)
-                intent.putExtra("text", rowModel.detail)
+                intent.putExtra("detail", rowModel.detail)
+                intent.putExtra("num",rowModel.num)
+                intent.putExtra("unit",rowModel.unit)
                 startActivity(intent)
             }
         })
+
 
         val getData : CollectionReference = db.collection("users")
         getData
@@ -61,10 +64,12 @@ class MainActivity : AppCompatActivity() {
                         val userList = document.toObjects(DataModel::class.java)
                         Log.d(TAG, "getDataAll")
                         Log.d(TAG, "userList.size " + userList.size)
-                        for(i in 1 until  userList.size){
+                        for(i in 0 until  userList.size){
                             val data : DataModel = DataModel().also {
                                 it.detail = userList.get(i).detail
                                 it.title = userList.get(i).title
+                                it.num = userList.get(i).num
+                                it.unit = userList.get(i).unit
                             }
                             //dataList.add(data)
                             viewAdapter.add(data)
@@ -138,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                             toast.setGravity(Gravity.TOP, 0, 150)
                             toast.show()
                         }
-                        addDataBase(editText)
+                        addDataBase(editText,"時間")
                     }
                     .show()
 
@@ -166,7 +171,7 @@ class MainActivity : AppCompatActivity() {
                             toast.setGravity(Gravity.TOP, 0, 150)
                             toast.show()
                         }
-                        addDataBase(editText)
+                        addDataBase(editText,"円")
                     }
                     .show()
 
@@ -182,14 +187,14 @@ class MainActivity : AppCompatActivity() {
         swipeToDismissTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-
-    private fun addDataBase(edit_text:EditText){
+    private fun addDataBase(edit_text:EditText,unit:String){
         val detail : String = edit_text.text.toString()
             //get from database
         if(!TextUtils.isEmpty(edit_text.text.toString())){
             val data :DataModel = DataModel().also{
                 it.detail =detail
                 it.title = SimpleDateFormat("yyyy/MM/dd").format(Date())
+                it.unit = unit
             }
             dataList.add(data)
 
@@ -207,7 +212,8 @@ class MainActivity : AppCompatActivity() {
 
             val dataMap = hashMapOf(
                 "detail" to detail,
-                "title" to SimpleDateFormat("yyyy/MM/dd").format(Date())
+                "title" to SimpleDateFormat("yyyy/MM/dd").format(Date()),
+                "unit" to unit
             )
 
             db.collection("users")
