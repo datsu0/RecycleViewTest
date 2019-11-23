@@ -128,6 +128,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             fab1.setOnClickListener { v ->
+                val unitlist = arrayOf("時間","分","回")
+                var unit:String = ""
                 val editText = EditText(this@MainActivity)
                 AlertDialog.Builder(this) // FragmentではActivityを取得して生成
                     .setTitle("追加")
@@ -143,7 +145,20 @@ class MainActivity : AppCompatActivity() {
                             toast.setGravity(Gravity.TOP, 0, 150)
                             toast.show()
                         }
-                        addDataBase(editText,"時間")
+                        addDataBase(editText,unit)
+                    }
+                    .show()
+
+                AlertDialog.Builder(this)
+                    .setTitle("単位の選択")
+                    .setItems(unitlist){dialog, which ->
+                        if(which==0){
+                            unit = "時間"
+                        }else if(which==1){
+                            unit = "分"
+                        }else{
+                            unit = "回"
+                        }
                     }
                     .show()
 
