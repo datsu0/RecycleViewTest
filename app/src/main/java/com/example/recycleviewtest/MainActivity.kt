@@ -1,5 +1,6 @@
 package com.example.recycleviewtest
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
@@ -9,14 +10,24 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.dynamicanimation.animation.DynamicAnimation
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.github.clans.fab.FloatingActionButton
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -52,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-
+        viewAdapter.notifyDataSetChanged()
 
         val getData : CollectionReference = db.collection("users")
         getData
@@ -70,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                                 it.title = userList.get(i).title
                                 it.num = userList.get(i).num
                                 it.unit = userList.get(i).unit
+                                it.image = userList.get(i).image
                             }
                             //dataList.add(data)
                             viewAdapter.add(data)
@@ -93,6 +105,15 @@ class MainActivity : AppCompatActivity() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        //recyclerview animation
+        recyclerView.run{
+            visibility = View.VISIBLE
+            val animation = AnimationUtils.loadAnimation(context, R.anim.move)
+            postDelayed({
+                startAnimation(animation)
+            }, 0)
+        }
+
 
         //fab
         val fabMain:View = findViewById<FloatingActionButton>(R.id.fabMain)
@@ -109,6 +130,8 @@ class MainActivity : AppCompatActivity() {
         text1.visibility = View.GONE
         text2.visibility = View.GONE
 
+        boundAnimation(fabMain)
+
         fabMain.setOnClickListener{view ->
             fabMain.visibility = View.GONE
             fab1.visibility = View.VISIBLE
@@ -116,6 +139,12 @@ class MainActivity : AppCompatActivity() {
             fabBack.visibility = View.VISIBLE
             text1.visibility = View.VISIBLE
             text2.visibility = View.VISIBLE
+
+            boundAnimation(fab1)
+            boundAnimation(fab2)
+            boundAnimation(fabBack)
+            boundAnimation(text1)
+            boundAnimation(text2)
 
             //view.visibility = View.GONE
             fabBack.setOnClickListener { v ->
@@ -202,6 +231,25 @@ class MainActivity : AppCompatActivity() {
         swipeToDismissTouchHelper.attachToRecyclerView(recyclerView)
     }
 
+    private fun boundAnimation(view: View){
+        //val animation = SpringAnimation(view, DynamicAnimation.TRANSLATION_Y, 0f)
+        val animation = SpringAnimation(view, DynamicAnimation.SCALE_X,1f)
+        val animation2 = SpringAnimation(view,DynamicAnimation.SCROLL_Y,1f)
+        animation.spring.apply {
+            dampingRatio = SpringForce.DAMPING_RATIO_HIGH_BOUNCY
+            stiffness = SpringForce.STIFFNESS_MEDIUM
+        }
+        animation2.spring.apply {
+            dampingRatio = SpringForce.DAMPING_RATIO_HIGH_BOUNCY
+            stiffness = SpringForce.STIFFNESS_VERY_LOW
+        }
+        animation.setStartVelocity(7f)
+        animation.start()
+        animation2.setStartVelocity(5f)
+        animation2.start()
+    }
+
+
     private fun addDataBase(edit_text:EditText,unit:String){
         val detail : String = edit_text.text.toString()
             //get from database
@@ -268,17 +316,45 @@ class MainActivity : AppCompatActivity() {
 
     //カードのスワイプアクションの定義
     private fun getSwipeToDismissTouchHelper(adapter: RecyclerView.Adapter<HomeViewHolder>) =
+//        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+//            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
+//            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+//        )
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN ,
+            ItemTouchHelper.LEFT
+        ){
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                return false
+                val adapter = recyclerView.adapter as ViewAdapter
+                val from = viewHolder.adapterPosition
+                val to = target.adapterPosition
+                // 2. モデルの変更。 MainRecyclerViewAdapter でのカスタム実装。
+                adapter.moveItem(from, to)
+                // 3. Adapter に変更を通知。これを呼ばないと、Drop が完了しない。
+                adapter.notifyItemMoved(from, to)
+
+                return true
             }
+
+        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+            super.onSelectedChanged(viewHolder, actionState)
+
+            if (actionState == ACTION_STATE_DRAG) {
+                viewHolder?.itemView?.alpha = 0.5f
+            }
+        }
+
+        // 2. 行が選択解除された時 (ドロップされた時) このコールバックが呼ばれる。ハイライトを解除する。
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+
+            viewHolder?.itemView?.alpha = 1.0f
+        }
+
 
             //スワイプ時に実行
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -298,6 +374,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             //スワイプした時の背景を設定
+            internal val deleteIcon =
+                ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_delete_black_24dp)
             override fun onChildDraw(
                 c: Canvas,
                 recyclerView: RecyclerView,
@@ -335,6 +413,17 @@ class MainActivity : AppCompatActivity() {
                     )
 
                 background.draw(c)
+
+                val deleteIconTop =
+                    itemView.getTop() + (itemView.getHeight() - deleteIcon!!.getIntrinsicHeight()) / 2
+                val deleteIconMargin = (itemView.getHeight() - deleteIcon!!.getIntrinsicHeight()) / 2
+                val deleteIconLeft =
+                    itemView.getRight() - deleteIconMargin - deleteIcon!!.getIntrinsicWidth()
+                val deleteIconRight = itemView.getRight() - deleteIconMargin
+                val deleteIconBottom = deleteIconTop + deleteIcon!!.getIntrinsicHeight()
+
+                deleteIcon?.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+                deleteIcon?.draw(c)
             }
         })
 }

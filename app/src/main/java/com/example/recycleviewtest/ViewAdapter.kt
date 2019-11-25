@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.activity_sub.view.*
 
 
 class ViewAdapter(private val list: ArrayList<DataModel>, private val listener: ListListener) :
@@ -23,11 +24,22 @@ class ViewAdapter(private val list: ArrayList<DataModel>, private val listener: 
         holder.detailView.text = list[position].detail
         holder.unitView.text = list[position].unit
         holder.numView.text = list[position].num.toString()
+        holder.image = list[position].image
 
         holder.itemView.setOnClickListener {
             listener.onClickRow(it, list[position])
         }
 
+    }
+
+    fun moveItem(from: Int, to: Int) {
+        val fromEmoji = list[from]
+        list.removeAt(from)
+        if (to < from) {
+            list.add(to, fromEmoji)
+        } else {
+            list.add(to - 1, fromEmoji)
+        }
     }
 
     fun add(data:DataModel){

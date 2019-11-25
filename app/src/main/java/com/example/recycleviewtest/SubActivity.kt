@@ -18,6 +18,9 @@ import android.media.MediaScannerConnection
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.View
+import android.view.animation.AnimationUtils
+import androidx.core.os.HandlerCompat.postDelayed
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -29,6 +32,7 @@ class SubActivity : AppCompatActivity() {
     private val TAG = "SubActivity"
     private val REQUEST_CHOOSER = 1000
     private var m_uri: Uri? = null
+    private var imageView:ImageView? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +92,7 @@ class SubActivity : AppCompatActivity() {
 //            val e = sp.edit()
 //            e.putInt("num" + data!!, num + getNum)
 //            e.commit()
+
             val intent1 = Intent(this@SubActivity, MainActivity::class.java)
             startActivity(intent1)
             finish()
@@ -100,7 +105,7 @@ class SubActivity : AppCompatActivity() {
         }
 
         image.setOnClickListener { v->
-            Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
             //カメラの起動Intentの用意
             val photoName = System.currentTimeMillis().toString() + ".jpg"
             val contentValues = ContentValues()
@@ -121,13 +126,12 @@ class SubActivity : AppCompatActivity() {
         }
 
         text.setOnClickListener { v ->
-            Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private fun rewriteDataBase(detail:String,num:Int,unit:String){
-
 
         val dataMap = hashMapOf(
             "detail" to detail,
@@ -171,10 +175,10 @@ class SubActivity : AppCompatActivity() {
             imageView.setImageURI(resultUri)
             Glide.with(imageView)
                 .load(resultUri)
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(180)))
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(360)))
                 .into(imageView)
 
-
+            this.imageView = imageView
         }
     }
 }
