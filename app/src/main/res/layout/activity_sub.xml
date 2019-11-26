@@ -14,12 +14,56 @@
             android:layout_height="wrap_content"
             android:text="null"
             android:textColor="#000000"
-            android:textSize="20dp"
+            android:textSize="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.25"/>
+            app:layout_constraintHorizontal_bias="0.07"
+            app:layout_constraintVertical_bias="0.15"/>
+
+        <TextView
+            android:id="@+id/textnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="null"
+            android:textColor="#000000"
+            android:textSize="55dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.2"/>
+
+        <TextView
+            android:id="@+id/textunit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="null"
+            android:textColor="#000000"
+            android:textSize="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintVertical_bias="0.24"/>
+
+        <TextView
+            android:id="@+id/background"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff0f5"
+            android:textSize="140dp"
+            android:topRightRadius="10dp"
+            android:bottomRightRadius="10dp"
+            android:bottomLeftRadius="10dp"
+            android:topLeftRadius="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.65"/>
 
             <NumberPicker
                 android:id="@+id/numPicker0"
@@ -30,7 +74,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.96"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintVertical_bias="0.65"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -42,7 +86,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.73"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintVertical_bias="0.65"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -54,7 +98,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintVertical_bias="0.65"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -66,7 +110,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.27"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintVertical_bias="0.65"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -78,7 +122,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintVertical_bias="0.65"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
         <Button
@@ -89,8 +133,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.8"
-            android:text="入力" />
+            app:layout_constraintVertical_bias="0.85"
+            android:text="追加" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabMain"
@@ -103,6 +147,41 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_replay_black_24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/pulsFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        app:backgroundTint="#FF0000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.35"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/minusFab"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom|end"-->
+<!--        android:layout_margin="@dimen/fab_margin"-->
+<!--        android:layout_marginTop="64dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:padding="20dp"-->
+<!--        app:backgroundTint="#3F51B5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.65"-->
+<!--        app:layout_constraintVertical_bias="0.35"-->
+<!--        app:srcCompat="@drawable/ic_remove_black_24dp" />-->
 
     <ImageView
         android:id="@+id/imageView"
@@ -132,6 +211,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.115"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

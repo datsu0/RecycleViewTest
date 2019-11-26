@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         //recyclerview animation
         recyclerView.run{
             visibility = View.VISIBLE
-            val animation = AnimationUtils.loadAnimation(context, R.anim.move)
+            val animation = AnimationUtils.loadAnimation(context, R.anim.lotate)
             postDelayed({
                 startAnimation(animation)
             }, 0)
@@ -241,7 +241,7 @@ class MainActivity : AppCompatActivity() {
         }
         animation2.spring.apply {
             dampingRatio = SpringForce.DAMPING_RATIO_HIGH_BOUNCY
-            stiffness = SpringForce.STIFFNESS_VERY_LOW
+            stiffness = SpringForce.STIFFNESS_MEDIUM
         }
         animation.setStartVelocity(7f)
         animation.start()
