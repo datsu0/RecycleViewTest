@@ -4,4 +4,5 @@
     <string name="move">MOVE</string>
     <string name="sub">Sub Activity</string>
     <string name="return_sub">RETURN</string>
+    <string name="one">One</string>
 </resources>

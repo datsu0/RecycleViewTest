@@ -13,9 +13,11 @@ import java.util.*
 import android.provider.MediaStore
 import android.content.ContentValues
 import android.graphics.Color
+import android.media.AudioAttributes
 
 import android.net.Uri
 import android.media.MediaScannerConnection
+import android.media.SoundPool
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.Toolbar
@@ -35,10 +37,28 @@ class SubActivity : AppCompatActivity() {
     private val REQUEST_CHOOSER = 1000
     private var m_uri: Uri? = null
     private var imageView:ImageView? = null
+    private lateinit var soundPool: SoundPool
+    private var soundButton = 0
+    private var soundDesition = 0
+    private var soundBack = 0
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub)
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_GAME)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build()
+
+        soundPool = SoundPool.Builder()
+            .setAudioAttributes(audioAttributes)
+            .setMaxStreams(1)
+            .build()
+
+        soundButton = soundPool.load(this, R.raw.decision3, 1)
+        soundDesition = soundPool.load(this,R.raw.decision1,1)
+        soundBack = soundPool.load(this,R.raw.cancel2,1)
+
         val toolbar:Toolbar = findViewById(R.id.toolbar)
         toolbar.setTitle("入力ページ")
         setSupportActionBar(toolbar)
@@ -52,6 +72,7 @@ class SubActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         // Do something
+        soundPool.play(soundBack, 1.0f, 1.0f, 0, 0, 1.0f)
         val intent = Intent(this@SubActivity, MainActivity::class.java)
         startActivity(intent)
         finish()
@@ -86,7 +107,7 @@ class SubActivity : AppCompatActivity() {
         val pulsFab: FloatingActionButton = findViewById(R.id.pulsFab)
         //val minusFab: FloatingActionButton = findViewById(R.id.minusFab)
         val image: ImageView = findViewById(R.id.imageView)
-        val text: TextView = findViewById(R.id.Imagetext)
+//        val text: TextView = findViewById(R.id.Imagetext)
         var sign = 1
         var flag = 0
 
@@ -110,6 +131,7 @@ class SubActivity : AppCompatActivity() {
         background.visibility=View.GONE
 
         pulsFab.setOnClickListener {
+            soundPool.play(soundButton, 1.0f, 1.0f, 0, 0, 1.0f)
             if(flag==0){
                 boundSmallAnimation(pulsFab)
                 numPicker.visibility=View.VISIBLE
@@ -166,6 +188,8 @@ class SubActivity : AppCompatActivity() {
 //        }
 
         button1.setOnClickListener {
+            soundPool.play(soundDesition, 1.0f, 1.0f, 0, 0, 1.0f)
+
 //            textView1.setText(numPicker.getValue() + "");
 //                            figures[0] = String.valueOf(numPicker.getValue());
 //                            figures[1] = String.valueOf(numPicker1.getValue());

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -18,6 +20,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.dynamicanimation.animation.DynamicAnimation
@@ -43,15 +46,34 @@ class MainActivity : AppCompatActivity() {
     val db = FirebaseFirestore.getInstance()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var soundPool: SoundPool
+    private var soundOne = 0
+    private var soundTwo = 0
+    private var soundDelete = 0
+    private var soundItem = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        val toolbar: Toolbar = findViewById(R.id.toolbar)
+//        toolbar.setTitle("Activity")
+//        setSupportActionBar(toolbar)
         val reDetail:String
         val reNum:String
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_GAME)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build()
 
-        //val recyclerView = recycler_list
-        //dataList = createDataList()
+        soundPool = SoundPool.Builder()
+            .setAudioAttributes(audioAttributes)
+            .setMaxStreams(1)
+            .build()
+
+        soundOne = soundPool.load(this, R.raw.decision3, 1)
+        soundTwo = soundPool.load(this,R.raw.decision22,1)
+        soundDelete = soundPool.load(this,R.raw.cancel2,1)
+        soundItem = soundPool.load(this,R.raw.decision3,1)
 
         val viewAdapter = ViewAdapter(dataList, object : ViewAdapter.ListListener {
             override fun onClickRow(tappedView: View, rowModel: DataModel) {
@@ -60,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("detail", rowModel.detail)
                 intent.putExtra("num",rowModel.num)
                 intent.putExtra("unit",rowModel.unit)
+                soundPool.play(soundItem, 1.0f, 1.0f, 0, 0, 1.0f)
                 startActivity(intent)
             }
         })
@@ -133,6 +156,7 @@ class MainActivity : AppCompatActivity() {
         boundAnimation(fabMain)
 
         fabMain.setOnClickListener{view ->
+            soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1.0f)
             fabMain.visibility = View.GONE
             fab1.visibility = View.VISIBLE
             fab2.visibility = View.VISIBLE
@@ -148,6 +172,7 @@ class MainActivity : AppCompatActivity() {
 
             //view.visibility = View.GONE
             fabBack.setOnClickListener { v ->
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1.0f)
                 fabMain.visibility = View.VISIBLE
                 fab1.visibility = View.GONE
                 fab2.visibility = View.GONE
@@ -157,6 +182,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             fab1.setOnClickListener { v ->
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1.0f)
                 val unitlist = arrayOf("時間","分","回")
                 var unit:String = ""
                 val editText = EditText(this@MainActivity)
@@ -200,6 +226,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             fab2.setOnClickListener { v ->
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1.0f)
                 val editText = EditText(this@MainActivity)
                 AlertDialog.Builder(this) // FragmentではActivityを取得して生成
                     .setTitle("追加")
@@ -251,6 +278,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun addDataBase(edit_text:EditText,unit:String){
+        soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1.0f)
         val detail : String = edit_text.text.toString()
             //get from database
         if(!TextUtils.isEmpty(edit_text.text.toString())){
@@ -362,7 +390,8 @@ class MainActivity : AppCompatActivity() {
                 val deleteData = dataList[viewHolder.adapterPosition].detail
                 println(deleteData +" find delete position "+viewHolder.adapterPosition)
                 dataList.removeAt(viewHolder.adapterPosition)
-
+                //delete sound
+                soundPool.play(soundDelete, 1.0f, 1.0f, 0, 0, 1.0f)
 
                 db.collection("users")
                     .document(deleteData)
