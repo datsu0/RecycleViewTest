@@ -18,6 +18,7 @@ import android.net.Uri
 import android.media.MediaScannerConnection
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.appcompat.widget.Toolbar
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
@@ -38,9 +39,29 @@ class SubActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub)
+        val toolbar:Toolbar = findViewById(R.id.toolbar)
+        toolbar.setTitle("入力ページ")
+        setSupportActionBar(toolbar)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setHomeButtonEnabled(true)
+        } ?: IllegalAccessException("Toolbar cannot be null")
+
         initViews()
     }
 
+    override fun onBackPressed() {
+        // Do something
+        val intent = Intent(this@SubActivity, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+        super.onBackPressed()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 
     private fun initViews() {
         val textView:TextView = findViewById<TextView>(R.id.text)
@@ -61,7 +82,7 @@ class SubActivity : AppCompatActivity() {
         val numPicker3: NumberPicker = findViewById<NumberPicker>(R.id.numPicker3) as NumberPicker
         val numPicker4: NumberPicker = findViewById<NumberPicker>(R.id.numPicker4) as NumberPicker
         val button1: Button = findViewById(R.id.button1)
-        val fab: FloatingActionButton = findViewById(R.id.fabMain)
+        //val fab: FloatingActionButton = findViewById(R.id.fabMain)
         val pulsFab: FloatingActionButton = findViewById(R.id.pulsFab)
         //val minusFab: FloatingActionButton = findViewById(R.id.minusFab)
         val image: ImageView = findViewById(R.id.imageView)
@@ -90,7 +111,7 @@ class SubActivity : AppCompatActivity() {
 
         pulsFab.setOnClickListener {
             if(flag==0){
-                rotateAnimation(pulsFab)
+                boundSmallAnimation(pulsFab)
                 numPicker.visibility=View.VISIBLE
                 numPicker1.visibility=View.VISIBLE
                 numPicker2.visibility=View.VISIBLE
@@ -100,7 +121,7 @@ class SubActivity : AppCompatActivity() {
                 background.visibility=View.VISIBLE
                 flag=1
             }else{
-                rotateBackAnimation(pulsFab)
+                boundAnimation(pulsFab)
                 numPicker.visibility=View.GONE
                 numPicker1.visibility=View.GONE
                 numPicker2.visibility=View.GONE
@@ -175,11 +196,11 @@ class SubActivity : AppCompatActivity() {
 //            finish()
         }
 
-        fab.setOnClickListener {
-            val intent = Intent(this@SubActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+//        fab.setOnClickListener {
+//            val intent = Intent(this@SubActivity, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
 
         image.setOnClickListener { v->
             //Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
@@ -234,8 +255,8 @@ class SubActivity : AppCompatActivity() {
 
     private fun boundAnimation(view: View){
         //val animation = SpringAnimation(view, DynamicAnimation.TRANSLATION_Y, 0f)
-        val animation = SpringAnimation(view, DynamicAnimation.SCALE_X,1.2f)
-        val animation2 = SpringAnimation(view, DynamicAnimation.SCALE_Y,1.2f)
+        val animation = SpringAnimation(view, DynamicAnimation.SCALE_X,1.0f)
+        val animation2 = SpringAnimation(view, DynamicAnimation.SCALE_Y,1.0f)
         animation.spring.apply {
             dampingRatio = SpringForce.DAMPING_RATIO_HIGH_BOUNCY
             stiffness = SpringForce.STIFFNESS_HIGH
@@ -269,8 +290,7 @@ class SubActivity : AppCompatActivity() {
     }
 
     private fun rewriteDataBase(detail:String,num:Int,unit:String){
-        Toast.makeText(this@SubActivity,detail+unit,Toast.LENGTH_SHORT).show();
-        val dataMap = hashMapOf(
+         val dataMap = hashMapOf(
             "detail" to detail,
             "title" to SimpleDateFormat("yyyy/MM/dd").format(Date()),
             "num" to num,

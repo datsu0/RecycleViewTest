@@ -5,8 +5,20 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="0"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#00574B"
+        app:theme="@style/ToolbarTheme" />
 
         <TextView
             android:id="@+id/text"
@@ -20,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.07"
-            app:layout_constraintVertical_bias="0.15"/>
+            app:layout_constraintVertical_bias="0.27"/>
 
         <TextView
             android:id="@+id/textnum"
@@ -33,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.2"/>
+            app:layout_constraintVertical_bias="0.33"/>
 
         <TextView
             android:id="@+id/textunit"
@@ -47,7 +59,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintVertical_bias="0.24"/>
+            app:layout_constraintVertical_bias="0.38"/>
 
         <TextView
             android:id="@+id/background"
@@ -63,7 +75,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.65"/>
+            app:layout_constraintVertical_bias="0.83"/>
 
             <NumberPicker
                 android:id="@+id/numPicker0"
@@ -74,7 +86,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.96"
-                app:layout_constraintVertical_bias="0.65"
+                app:layout_constraintVertical_bias="0.83"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -86,7 +98,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.73"
-                app:layout_constraintVertical_bias="0.65"
+                app:layout_constraintVertical_bias="0.83"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -98,7 +110,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintVertical_bias="0.65"
+                app:layout_constraintVertical_bias="0.83"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -110,7 +122,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.27"
-                app:layout_constraintVertical_bias="0.65"
+                app:layout_constraintVertical_bias="0.83"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -122,7 +134,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintVertical_bias="0.65"
+                app:layout_constraintVertical_bias="0.83"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
         <Button
@@ -133,20 +145,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.85"
+            app:layout_constraintVertical_bias="1"
             android:text="追加" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabMain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_replay_black_24dp" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/fabMain"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|end"-->
+<!--            android:layout_margin="@dimen/fab_margin"-->
+<!--            android:layout_marginTop="64dp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:srcCompat="@drawable/ic_replay_black_24dp" />-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/pulsFab"
@@ -162,7 +174,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.35"
+        app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
 <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
@@ -196,7 +208,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.015"/>
+        app:layout_constraintVertical_bias="0.13"/>
 
     <TextView
         android:id="@+id/Imagetext"
@@ -210,7 +222,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.115"/>
+        app:layout_constraintVertical_bias="0.23"/>
 
 
 

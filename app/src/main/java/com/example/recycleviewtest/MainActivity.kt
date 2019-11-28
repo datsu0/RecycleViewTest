@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         //recyclerview animation
         recyclerView.run{
             visibility = View.VISIBLE
-            val animation = AnimationUtils.loadAnimation(context, R.anim.lotate)
+            val animation = AnimationUtils.loadAnimation(context, R.anim.move)
             postDelayed({
                 startAnimation(animation)
             }, 0)
