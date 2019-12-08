@@ -19,16 +19,16 @@
                     xmlns:tools="http://schemas.android.com/tools"
                     android:paddingTop="2dp"
                     android:paddingLeft="5dp"
-                    android:background="#E3FFDB"
+                    android:background="#DBDFFF"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/ic_launcher" />
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:src="@drawable/ic_undraw_jogging_t14q" />
 
                         <TextView
                             android:id="@+id/row_title"

@@ -143,15 +143,15 @@ class MainActivity : AppCompatActivity() {
         val fab1:View = findViewById(R.id.fab1)
         val fab2:View = findViewById<FloatingActionButton>(R.id.fab2)
         val fabBack:View = findViewById(R.id.fabBack)
-        val text1:TextView = findViewById(R.id.fabtext1)
-        val text2:TextView = findViewById(R.id.fabtext2)
+//        val text1:TextView = findViewById(R.id.fabtext1)
+//        val text2:TextView = findViewById(R.id.fabtext2)
 
         fabMain.visibility = View.VISIBLE
         fab1.visibility = View.GONE
         fab2.visibility = View.GONE
         fabBack.visibility = View.GONE
-        text1.visibility = View.GONE
-        text2.visibility = View.GONE
+//        text1.visibility = View.GONE
+//        text2.visibility = View.GONE
 
         boundAnimation(fabMain)
 
@@ -161,14 +161,14 @@ class MainActivity : AppCompatActivity() {
             fab1.visibility = View.VISIBLE
             fab2.visibility = View.VISIBLE
             fabBack.visibility = View.VISIBLE
-            text1.visibility = View.VISIBLE
-            text2.visibility = View.VISIBLE
+//            text1.visibility = View.VISIBLE
+//            text2.visibility = View.VISIBLE
 
             boundAnimation(fab1)
             boundAnimation(fab2)
             boundAnimation(fabBack)
-            boundAnimation(text1)
-            boundAnimation(text2)
+//            boundAnimation(text1)
+//            boundAnimation(text2)
 
             //view.visibility = View.GONE
             fabBack.setOnClickListener { v ->
@@ -177,8 +177,8 @@ class MainActivity : AppCompatActivity() {
                 fab1.visibility = View.GONE
                 fab2.visibility = View.GONE
                 fabBack.visibility = View.GONE
-                text1.visibility = View.GONE
-                text2.visibility = View.GONE
+//                text1.visibility = View.GONE
+//                text2.visibility = View.GONE
             }
 
             fab1.setOnClickListener { v ->
@@ -221,8 +221,8 @@ class MainActivity : AppCompatActivity() {
                 fab1.visibility = View.GONE
                 fab2.visibility = View.GONE
                 fabBack.visibility = View.GONE
-                text1.visibility = View.GONE
-                text2.visibility = View.GONE
+//                text1.visibility = View.GONE
+//                text2.visibility = View.GONE
             }
 
             fab2.setOnClickListener { v ->
@@ -250,8 +250,8 @@ class MainActivity : AppCompatActivity() {
                 fab1.visibility = View.GONE
                 fab2.visibility = View.GONE
                 fabBack.visibility = View.GONE
-                text1.visibility = View.GONE
-                text2.visibility = View.GONE
+//                text1.visibility = View.GONE
+//                text2.visibility = View.GONE
             }
         }
         val swipeToDismissTouchHelper = getSwipeToDismissTouchHelper(viewAdapter)

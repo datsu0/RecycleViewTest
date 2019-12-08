@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_sub.*
+import org.w3c.dom.Text
 
 
 class SubActivity : AppCompatActivity() {
@@ -89,6 +90,7 @@ class SubActivity : AppCompatActivity() {
         val textNum: TextView = findViewById(R.id.textnum)
         val textUnit: TextView = findViewById(R.id.textunit)
         var backView: TextView = findViewById(R.id.background)
+        var numBackView: TextView = findViewById(R.id.numBackGround)
         val intent = intent
         val detail = intent.getStringExtra("detail")
         val num = intent.getIntExtra("num", 0)
@@ -106,7 +108,7 @@ class SubActivity : AppCompatActivity() {
         //val fab: FloatingActionButton = findViewById(R.id.fabMain)
         val pulsFab: FloatingActionButton = findViewById(R.id.pulsFab)
         //val minusFab: FloatingActionButton = findViewById(R.id.minusFab)
-        val image: ImageView = findViewById(R.id.imageView)
+//        val image: ImageView = findViewById(R.id.imageView)
 //        val text: TextView = findViewById(R.id.Imagetext)
         var sign = 1
         var flag = 0
@@ -226,30 +228,30 @@ class SubActivity : AppCompatActivity() {
 //            finish()
 //        }
 
-        image.setOnClickListener { v->
-            //Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
-            //カメラの起動Intentの用意
-            val photoName = System.currentTimeMillis().toString() + ".jpg"
-            val contentValues = ContentValues()
-            contentValues.put(MediaStore.Images.Media.TITLE, photoName)
-            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            m_uri = contentResolver
-                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+//        image.setOnClickListener { v->
+//            //Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
+//            //カメラの起動Intentの用意
+//            val photoName = System.currentTimeMillis().toString() + ".jpg"
+//            val contentValues = ContentValues()
+//            contentValues.put(MediaStore.Images.Media.TITLE, photoName)
+//            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+//            m_uri = contentResolver
+//                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+//
+//            val intentCamera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//            intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, m_uri)
+//            val intentGallery: Intent
+//            intentGallery = Intent(Intent.ACTION_OPEN_DOCUMENT)
+//            intentGallery.addCategory(Intent.CATEGORY_OPENABLE)
+//            intentGallery.type = "image/jpeg"
+//            val intent = Intent.createChooser(intentCamera, "画像の選択")
+//            intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(intentGallery))
+//            startActivityForResult(intent, REQUEST_CHOOSER)
+//        }
 
-            val intentCamera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, m_uri)
-            val intentGallery: Intent
-            intentGallery = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intentGallery.addCategory(Intent.CATEGORY_OPENABLE)
-            intentGallery.type = "image/jpeg"
-            val intent = Intent.createChooser(intentCamera, "画像の選択")
-            intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(intentGallery))
-            startActivityForResult(intent, REQUEST_CHOOSER)
-        }
-
-        text.setOnClickListener { v ->
-            //Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
-        }
+//        text.setOnClickListener { v ->
+//            Toast.makeText(this@SubActivity,"image",Toast.LENGTH_SHORT).show();
+//        }
 
     }
 
