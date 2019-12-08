@@ -5,6 +5,7 @@
     xmlns:fab="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     tools:context=".MainActivity">
 
 <!--    <androidx.appcompat.widget.Toolbar-->
@@ -49,6 +50,7 @@
         android:scrollbars="vertical"
         android:background="?android:attr/selectableItemBackground"
         android:clipToPadding="false"
+        android:elevation="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
