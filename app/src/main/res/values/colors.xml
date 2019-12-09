@@ -14,7 +14,7 @@
     <color name="blue">#3F51B5</color>
     <color name="red">#FF0000</color>
     <color name="recycle_highlight_color">#FF5F93</color>
-    <color name="colordebug">#F0A03A</color>
+    <color name="cardViewOrenge">#F0A03A</color>
     <color name="cardViewBule">#828DFF</color>
 
 </resources>

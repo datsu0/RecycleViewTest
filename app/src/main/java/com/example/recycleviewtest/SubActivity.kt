@@ -28,12 +28,30 @@ import androidx.dynamicanimation.animation.SpringForce
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IValueFormatter
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.google.firebase.firestore.CollectionReference
+import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.series.BarGraphSeries
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.activity_sub.*
 import org.w3c.dom.Text
+import java.lang.reflect.Array.get
+import kotlin.math.PI
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 class SubActivity : AppCompatActivity() {
     private val figures = arrayOfNulls<String>(5)
+    var graphDataList = ArrayList<DataModel>()
     val db = FirebaseFirestore.getInstance()
     private val TAG = "SubActivity"
     private val REQUEST_CHOOSER = 1000
@@ -42,6 +60,7 @@ class SubActivity : AppCompatActivity() {
     private var soundButton = 0
     private var soundDesition = 0
     private var soundBack = 0
+
 
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +89,85 @@ class SubActivity : AppCompatActivity() {
         } ?: IllegalAccessException("Toolbar cannot be null")
 
         initViews()
+
+        val detail:String = intent.getStringExtra("detail")
+
+
+        val getData : CollectionReference = db.collection(detail)
+        getData
+            .get()
+            .addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null && document.toObjects(DataModel::class.java) != null) {
+                        val userList = document.toObjects(DataModel::class.java)
+                        Log.d(TAG, "getDataAll")
+                        Log.d(TAG, "userList.size " + userList.size)
+                        for(i in 0 until  userList.size){
+                            val data : DataModel = DataModel().also {
+                                it.detail = userList.get(i).detail
+                                it.title = userList.get(i).title
+                                it.num = userList.get(i).num
+                                it.unit = userList.get(i).unit
+                                it.image = userList.get(i).image
+                            }
+                            graphDataList.add(data)
+                            Log.d(TAG, "graphDataList.get(" + i + ").detail " + userList.get(i).detail)
+                            Log.d(TAG, "graphDataList.get(" + i + ").title " + userList.get(i).title)
+                            Log.d(TAG, "graphDataList.get(" + i + ").num " + userList.get(i).num)
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+
+
+        val chart = bar_chart
+        //表示データ取得
+        chart.data = BarData(getBarData())
+
+        //Y軸(左)の設定
+        chart.axisLeft.apply {
+            axisMinimum = 0f
+            axisMaximum = 100f
+            labelCount = 5
+            setDrawTopYLabelEntry(true)
+            setValueFormatter { value, axis -> "" + value.toInt()}
+        }
+
+        //Y軸(右)の設定
+        chart.axisRight.apply {
+            setDrawLabels(false)
+            setDrawGridLines(false)
+            setDrawZeroLine(false)
+            setDrawTopYLabelEntry(true)
+        }
+
+        //X軸の設定
+        val labels = arrayOf("","国語","数学","英語") //最初の””は原点の値
+        chart.xAxis.apply {
+            valueFormatter = IndexAxisValueFormatter(labels)
+            labelCount = 3 //表示させるラベル数
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawLabels(true)
+            setDrawGridLines(false)
+            setDrawAxisLine(true)
+        }
+
+        //グラフ上の表示
+        chart.apply {
+            setDrawValueAboveBar(true)
+            description.isEnabled = false
+            isClickable = false
+            legend.isEnabled = false //凡例
+            setScaleEnabled(false)
+            animateY(1200, Easing.EasingOption.Linear)
+        }
+
     }
 
     override fun onBackPressed() {
@@ -155,35 +253,35 @@ class SubActivity : AppCompatActivity() {
                     val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
                     postDelayed({
                         startAnimation(animation)
-                    }, 0)
+                    }, 100)
                 }
                 numPicker1.run{
                     visibility = View.VISIBLE
                     val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
                     postDelayed({
                         startAnimation(animation)
-                    }, 0)
+                    }, 100)
                 }
                 numPicker2.run{
                     visibility = View.VISIBLE
                     val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
                     postDelayed({
                         startAnimation(animation)
-                    }, 0)
+                    }, 100)
                 }
                 numPicker3.run{
                     visibility = View.VISIBLE
                     val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
                     postDelayed({
                         startAnimation(animation)
-                    }, 0)
+                    }, 100)
                 }
                 numPicker4.run{
                     visibility = View.VISIBLE
                     val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
                     postDelayed({
                         startAnimation(animation)
-                    }, 0)
+                    }, 100)
                 }
                 button1.run{
                     visibility = View.VISIBLE
@@ -243,14 +341,14 @@ class SubActivity : AppCompatActivity() {
                     val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
                     postDelayed({
                         startAnimation(animation)
-                    }, 0)
+                    }, 200)
                 }
                 background.run{
                     visibility = View.GONE
                     val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
                     postDelayed({
                         startAnimation(animation)
-                    }, 0)
+                    }, 200)
                 }
                 flag=0
             }
@@ -274,6 +372,7 @@ class SubActivity : AppCompatActivity() {
             show = getNum + show
             textNum.setText((show+num).toString())
             rewriteDataBase(detail,num+show,unit)
+            addDataBase(detail,show,unit)
 
             boundAnimation(pulsFab)
             numPicker.run{
@@ -316,14 +415,14 @@ class SubActivity : AppCompatActivity() {
                 val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
                 postDelayed({
                     startAnimation(animation)
-                }, 0)
+                }, 200)
             }
             background.run{
                 visibility = View.GONE
                 val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
                 postDelayed({
                     startAnimation(animation)
-                }, 0)
+                }, 200)
             }
             flag=0
 
@@ -448,6 +547,60 @@ class SubActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
             }
+    }
+
+    private fun addDataBase(detail:String,num:Int,unit:String){
+        val dataMap = hashMapOf(
+            "detail" to detail,
+            "title" to SimpleDateFormat("yyyy/MM/dd").format(Date()),
+            "num" to num,
+            "unit" to unit
+        )
+
+        db.collection(detail)
+            .add(dataMap)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
+    }
+
+
+    private fun getBarData(): ArrayList<IBarDataSet> {
+        //表示させるデータ
+        Log.d(TAG, "entries!!!!" + graphDataList.size)
+//        var entries= ArrayList<BarEntry>()
+//        if(list.size!=0){
+//            for (i in 0..list.size) {
+//                val num: Float = list.get(i).num + 0.0f
+//                entries = ArrayList<BarEntry>().apply {
+//                    add(BarEntry(i + 0f, num))
+//                }
+//                Log.d(TAG, "entries.get(" + i + ").detail " + entries.get(i).x)
+//                Log.d(TAG, "entries.get(" + i + ").title " + entries.get(i).y)
+//            }
+//        }
+
+        val entries = ArrayList<BarEntry>().apply {
+            add(BarEntry(1f, 60f))
+            add(BarEntry(2f, 80f))
+            add(BarEntry(3f, 70f))
+        }
+
+        val dataSet = BarDataSet(entries, "bar").apply {
+            //整数で表示
+            valueFormatter = IValueFormatter { value, _, _, _ -> "" + value.toInt() }
+            //ハイライトさせない
+            isHighlightEnabled = false
+            //Barの色をセット
+            setColors(intArrayOf(R.color.cardViewBule, R.color.cardViewOrenge, R.color.cardViewBule), this@SubActivity)
+        }
+
+        val bars = ArrayList<IBarDataSet>()
+        bars.add(dataSet)
+        return bars
     }
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
