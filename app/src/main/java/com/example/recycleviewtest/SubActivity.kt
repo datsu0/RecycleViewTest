@@ -37,7 +37,6 @@ class SubActivity : AppCompatActivity() {
     private val TAG = "SubActivity"
     private val REQUEST_CHOOSER = 1000
     private var m_uri: Uri? = null
-    private var imageView:ImageView? = null
     private lateinit var soundPool: SoundPool
     private var soundButton = 0
     private var soundDesition = 0
@@ -91,6 +90,7 @@ class SubActivity : AppCompatActivity() {
         val textUnit: TextView = findViewById(R.id.textunit)
         var backView: TextView = findViewById(R.id.background)
         var numBackView: TextView = findViewById(R.id.numBackGround)
+        val imageView: ImageView = findViewById(R.id.imageView)
         val intent = intent
         val detail = intent.getStringExtra("detail")
         val num = intent.getIntExtra("num", 0)
@@ -98,6 +98,14 @@ class SubActivity : AppCompatActivity() {
         textView.setText(detail)
         textNum.setText(num.toString())
         textUnit.setText(unit)
+        if(unit=="円"){
+            imageView!!.setImageResource(R.drawable.ic_yen_sign_solid)
+            numBackView.setBackgroundColor(Color.parseColor("#F0A03A"))
+
+        }else{
+            imageView!!.setImageResource(R.drawable.ic_clock_regular)
+            numBackView.setBackgroundColor(Color.parseColor("#828DFF"))
+        }
 
         val numPicker: NumberPicker = findViewById<NumberPicker>(R.id.numPicker0) as NumberPicker
         val numPicker1: NumberPicker = findViewById<NumberPicker>(R.id.numPicker1) as NumberPicker
@@ -335,33 +343,33 @@ class SubActivity : AppCompatActivity() {
             }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_CHOOSER) {
-
-            if (resultCode != Activity.RESULT_OK) {
-                // キャンセル時
-                return
-            }
-
-            val resultUri = (if (data != null) data.data else m_uri) ?: return
-
-            MediaScannerConnection.scanFile(
-                this,
-                arrayOf<String?>(resultUri.path),
-                arrayOf("image/jpeg"), null
-            )
-
-            // 画像を設定
-            val imageView = findViewById(R.id.imageView) as ImageView
-            imageView.setImageURI(resultUri)
-            Glide.with(imageView)
-                .load(resultUri)
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(360)))
-                .into(imageView)
-
-            this.imageView = imageView
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (requestCode == REQUEST_CHOOSER) {
+//
+//            if (resultCode != Activity.RESULT_OK) {
+//                // キャンセル時
+//                return
+//            }
+//
+//            val resultUri = (if (data != null) data.data else m_uri) ?: return
+//
+//            MediaScannerConnection.scanFile(
+//                this,
+//                arrayOf<String?>(resultUri.path),
+//                arrayOf("image/jpeg"), null
+//            )
+//
+//            // 画像を設定
+//            val imageView = findViewById(R.id.imageView) as ImageView
+//            imageView.setImageURI(resultUri)
+//            Glide.with(imageView)
+//                .load(resultUri)
+//                .apply(RequestOptions.bitmapTransform(RoundedCorners(360)))
+//                .into(imageView)
+//
+//            this.imageView = imageView
+//        }
+//    }
 }

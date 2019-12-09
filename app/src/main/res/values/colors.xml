@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#151F58</color>
-    <color name="colorPrimaryDark">#151F58</color>
+    <color name="colorPrimary">#222A3C</color>
+    <color name="colorPrimaryDark">#222A3C</color>
+    <color name="themeColor">#222A3C</color>
+
     <color name="colorAccent">#D81B60</color>
+    <color name="textColor">#FAFAFA</color>
+
+
+
     <color name="white">#FFFFFF</color>
     <color name="blue">#3F51B5</color>
     <color name="red">#FF0000</color>
     <color name="recycle_highlight_color">#ff4081</color>
+    <color name="colordebug">#F0A03A</color>
+    <color name="cardViewBule">#828DFF</color>
+
 </resources>

@@ -1,10 +1,12 @@
 package com.example.recycleviewtest
 
 import android.content.ClipData
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.activity_sub.view.*
 
 
@@ -24,7 +26,14 @@ class ViewAdapter(private val list: ArrayList<DataModel>, private val listener: 
         holder.detailView.text = list[position].detail
         holder.unitView.text = list[position].unit
         holder.numView.text = list[position].num.toString()
-        holder.image = list[position].image
+        if(list[position].unit=="円"){
+            holder.image!!.setImageResource(R.drawable.ic_yen_sign_solid)
+            holder.card.setCardBackgroundColor(Color.parseColor("#F0A03A"))
+        }else{
+            holder.image!!.setImageResource(R.drawable.ic_clock_regular)
+            holder.card.setCardBackgroundColor(Color.parseColor("#828DFF"))
+        }
+
 
         holder.itemView.setOnClickListener {
             listener.onClickRow(it, list[position])

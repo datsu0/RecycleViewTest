@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 
 class HomeViewHolder(itemView: View) :
     androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
@@ -12,4 +13,5 @@ class HomeViewHolder(itemView: View) :
     val numView: TextView = itemView.findViewById(R.id.row_num)
     val unitView: TextView = itemView.findViewById(R.id.row_unit)
     var image: ImageView? = itemView.findViewById(R.id.imageView)
+    var card: CardView = itemView.findViewById(R.id.cardView)
 }

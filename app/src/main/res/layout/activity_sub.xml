@@ -17,7 +17,7 @@
         app:layout_constraintVertical_bias="0"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#FF151F58"
+        android:background="@color/themeColor"
         app:theme="@style/ToolbarTheme" />
 
 
@@ -25,10 +25,10 @@
         android:id="@+id/numBackGround"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#DBDFFF"
+        android:background="@color/cardViewBule"
         android:bottomLeftRadius="10dp"
         android:bottomRightRadius="10dp"
-        android:textSize="140dp"
+        android:textSize="250dp"
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,14 +36,26 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.17" />
+        app:layout_constraintVertical_bias="0.142" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        android:src="@drawable/ic_yen_sign_solid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.95"/>
 
     <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="null"
-            android:textColor="#000000"
+            android:textColor="@color/textColor"
             android:textSize="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="null"
-            android:textColor="#000000"
+            android:textColor="@color/textColor"
             android:textSize="55dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="null"
-            android:textColor="#000000"
+            android:textColor="@color/textColor"
             android:textSize="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
