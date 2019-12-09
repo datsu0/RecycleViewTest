@@ -6,13 +6,14 @@
 
     <color name="colorAccent">#D81B60</color>
     <color name="textColor">#FAFAFA</color>
+    <color name="subAddColor">#FFD0D0</color>
 
 
 
     <color name="white">#FFFFFF</color>
     <color name="blue">#3F51B5</color>
     <color name="red">#FF0000</color>
-    <color name="recycle_highlight_color">#ff4081</color>
+    <color name="recycle_highlight_color">#FF5F93</color>
     <color name="colordebug">#F0A03A</color>
     <color name="cardViewBule">#828DFF</color>
 

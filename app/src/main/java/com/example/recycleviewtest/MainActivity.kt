@@ -84,6 +84,8 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("unit",rowModel.unit)
                 soundPool.play(soundItem, 1.0f, 1.0f, 0, 0, 1.0f)
                 startActivity(intent)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
             }
         })
         viewAdapter.notifyDataSetChanged()

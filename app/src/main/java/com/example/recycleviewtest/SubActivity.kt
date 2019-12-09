@@ -77,6 +77,7 @@ class SubActivity : AppCompatActivity() {
         soundPool.play(soundBack, 1.0f, 1.0f, 0, 0, 1.0f)
         val intent = Intent(this@SubActivity, MainActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         finish()
         super.onBackPressed()
     }
@@ -255,14 +256,6 @@ class SubActivity : AppCompatActivity() {
             }
 
             //boundSmallAnimation(minusFab)
-
-            val color:String = "#fff0f5"
-            numPicker.setBackgroundColor(Color.parseColor(color))
-            numPicker1.setBackgroundColor(Color.parseColor(color))
-            numPicker2.setBackgroundColor(Color.parseColor(color))
-            numPicker3.setBackgroundColor(Color.parseColor(color))
-            numPicker4.setBackgroundColor(Color.parseColor(color))
-            background.setBackgroundColor(Color.parseColor(color))
             sign = 1
 
         }
