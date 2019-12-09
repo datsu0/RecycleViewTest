@@ -21,6 +21,7 @@ import android.media.SoundPool
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.HandlerCompat.postDelayed
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
@@ -41,6 +42,7 @@ class SubActivity : AppCompatActivity() {
     private var soundButton = 0
     private var soundDesition = 0
     private var soundBack = 0
+
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +100,9 @@ class SubActivity : AppCompatActivity() {
         textView.setText(detail)
         textNum.setText(num.toString())
         textUnit.setText(unit)
+        var show = 0
+
+
         if(unit=="円"){
             imageView!!.setImageResource(R.drawable.ic_yen_sign_solid)
             numBackView.setBackgroundColor(Color.parseColor("#F0A03A"))
@@ -144,23 +149,108 @@ class SubActivity : AppCompatActivity() {
             soundPool.play(soundButton, 1.0f, 1.0f, 0, 0, 1.0f)
             if(flag==0){
                 boundSmallAnimation(pulsFab)
-                numPicker.visibility=View.VISIBLE
-                numPicker1.visibility=View.VISIBLE
-                numPicker2.visibility=View.VISIBLE
-                numPicker3.visibility=View.VISIBLE
-                numPicker4.visibility=View.VISIBLE
-                button1.visibility=View.VISIBLE
-                background.visibility=View.VISIBLE
+                numPicker.run{
+                    visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                numPicker1.run{
+                    visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                numPicker2.run{
+                    visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                numPicker3.run{
+                    visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                numPicker4.run{
+                    visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                button1.run{
+                    visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                background.run{
+                    visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+
                 flag=1
             }else{
                 boundAnimation(pulsFab)
-                numPicker.visibility=View.GONE
-                numPicker1.visibility=View.GONE
-                numPicker2.visibility=View.GONE
-                numPicker3.visibility=View.GONE
-                numPicker4.visibility=View.GONE
-                button1.visibility=View.GONE
-                background.visibility=View.GONE
+                numPicker.run{
+                    visibility = View.GONE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                numPicker1.run{
+                    visibility = View.GONE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                numPicker2.run{
+                    visibility = View.GONE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                numPicker3.run{
+                    visibility = View.GONE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                numPicker4.run{
+                    visibility = View.GONE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                button1.run{
+                    visibility = View.GONE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
+                background.run{
+                    visibility = View.GONE
+                    val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                    postDelayed({
+                        startAnimation(animation)
+                    }, 0)
+                }
                 flag=0
             }
 
@@ -177,37 +267,9 @@ class SubActivity : AppCompatActivity() {
 
         }
 
-//        minusFab.setOnClickListener {
-//            boundAnimation(minusFab)
-//            boundSmallAnimation(pulsFab)
-//            numPicker.visibility=View.VISIBLE
-//            numPicker1.visibility=View.VISIBLE
-//            numPicker2.visibility=View.VISIBLE
-//            numPicker3.visibility=View.VISIBLE
-//            numPicker4.visibility=View.VISIBLE
-//            button1.visibility=View.VISIBLE
-//            background.visibility=View.VISIBLE
-//            val color:String = "#e0ffff"
-//            numPicker.setBackgroundColor(Color.parseColor(color))
-//            numPicker1.setBackgroundColor(Color.parseColor(color))
-//            numPicker2.setBackgroundColor(Color.parseColor(color))
-//            numPicker3.setBackgroundColor(Color.parseColor(color))
-//            numPicker4.setBackgroundColor(Color.parseColor(color))
-//            background.setBackgroundColor(Color.parseColor(color))
-//            sign = -1
-//        }
 
         button1.setOnClickListener {
             soundPool.play(soundDesition, 1.0f, 1.0f, 0, 0, 1.0f)
-
-//            textView1.setText(numPicker.getValue() + "");
-//                            figures[0] = String.valueOf(numPicker.getValue());
-//                            figures[1] = String.valueOf(numPicker1.getValue());
-//                            figures[2] = String.valueOf(numPicker2.getValue());
-//                            figures[3] = String.valueOf(numPicker3.getValue());
-//                            figures[4] = String.valueOf(numPicker4.getValue());
-//                            String str = String.format("%s%s%s.%s%s",
-//                                    figures[0], figures[1], figures[2], figures[3], figures[4]);
 
             val getNum = numPicker.value + numPicker1.value * 10 + numPicker2.value * 100 +
                     numPicker3.value * 1000 + numPicker4.value * 10000
@@ -216,9 +278,61 @@ class SubActivity : AppCompatActivity() {
             val detail = intent.getStringExtra("detail")
             val num = intent.getIntExtra("num", 0)
             val unit = intent.getStringExtra("unit")
-            val show = num + (getNum*sign)
-            textNum.setText(show.toString())
-            rewriteDataBase(detail,num+(getNum*sign),unit)
+            show = getNum + show
+            textNum.setText((show+num).toString())
+            rewriteDataBase(detail,num+show,unit)
+
+            boundAnimation(pulsFab)
+            numPicker.run{
+                visibility = View.GONE
+                val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                postDelayed({
+                    startAnimation(animation)
+                }, 0)
+            }
+            numPicker1.run{
+                visibility = View.GONE
+                val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                postDelayed({
+                    startAnimation(animation)
+                }, 0)
+            }
+            numPicker2.run{
+                visibility = View.GONE
+                val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                postDelayed({
+                    startAnimation(animation)
+                }, 0)
+            }
+            numPicker3.run{
+                visibility = View.GONE
+                val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                postDelayed({
+                    startAnimation(animation)
+                }, 0)
+            }
+            numPicker4.run{
+                visibility = View.GONE
+                val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                postDelayed({
+                    startAnimation(animation)
+                }, 0)
+            }
+            button1.run{
+                visibility = View.GONE
+                val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                postDelayed({
+                    startAnimation(animation)
+                }, 0)
+            }
+            background.run{
+                visibility = View.GONE
+                val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
+                postDelayed({
+                    startAnimation(animation)
+                }, 0)
+            }
+            flag=0
 
 //            val sp = getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
 //            val e = sp.edit()

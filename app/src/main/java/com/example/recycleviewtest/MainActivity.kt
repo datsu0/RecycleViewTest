@@ -405,6 +405,7 @@ class MainActivity : AppCompatActivity() {
             //スワイプした時の背景を設定
             internal val deleteIcon =
                 ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_delete_black_24dp)
+            val arrowIcon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_arrow_back_black_24dp)
             override fun onChildDraw(
                 c: Canvas,
                 recyclerView: RecyclerView,
@@ -452,7 +453,9 @@ class MainActivity : AppCompatActivity() {
                 val deleteIconBottom = deleteIconTop + deleteIcon!!.getIntrinsicHeight()
 
                 deleteIcon?.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+                arrowIcon?.setBounds(deleteIconLeft-200, deleteIconTop, deleteIconRight-200, deleteIconBottom)
                 deleteIcon?.draw(c)
+                arrowIcon?.draw(c)
             }
         })
 }

@@ -96,7 +96,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#fff0f5"
-            android:textSize="140dp"
+            android:textSize="170dp"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
@@ -105,7 +105,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.83"/>
+            app:layout_constraintVertical_bias="0.89"/>
 
             <NumberPicker
                 android:id="@+id/numPicker0"
@@ -116,7 +116,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.96"
-                app:layout_constraintVertical_bias="0.83"
+                app:layout_constraintVertical_bias="0.88"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -128,7 +128,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.73"
-                app:layout_constraintVertical_bias="0.83"
+                app:layout_constraintVertical_bias="0.88"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -140,7 +140,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintVertical_bias="0.83"
+                app:layout_constraintVertical_bias="0.88"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -152,7 +152,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.27"
-                app:layout_constraintVertical_bias="0.83"
+                app:layout_constraintVertical_bias="0.88"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
             <NumberPicker
@@ -164,13 +164,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintVertical_bias="0.83"
+                app:layout_constraintVertical_bias="0.88"
                 app:layout_constraintHorizontal_chainStyle="packed"/>
 
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FF0606"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
