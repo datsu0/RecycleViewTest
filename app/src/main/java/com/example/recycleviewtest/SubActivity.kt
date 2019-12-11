@@ -1,6 +1,5 @@
 package com.example.recycleviewtest
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
@@ -10,25 +9,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
-import android.provider.MediaStore
-import android.content.ContentValues
 import android.graphics.Color
 import android.media.AudioAttributes
-
 import android.net.Uri
-import android.media.MediaScannerConnection
 import android.media.SoundPool
+import android.os.HandlerThread
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.Toolbar
-import androidx.core.os.HandlerCompat.postDelayed
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -38,20 +31,14 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.google.firebase.firestore.CollectionReference
 import com.jjoe64.graphview.GraphView
-import com.jjoe64.graphview.series.BarGraphSeries
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.activity_sub.*
-import org.w3c.dom.Text
-import java.lang.reflect.Array.get
-import kotlin.math.PI
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.collections.ArrayList
 
 
 class SubActivity : AppCompatActivity() {
     private val figures = arrayOfNulls<String>(5)
     var graphDataList = ArrayList<DataModel>()
+    var maxNum:Float = 0f
     val db = FirebaseFirestore.getInstance()
     private val TAG = "SubActivity"
     private val REQUEST_CHOOSER = 1000
@@ -88,9 +75,10 @@ class SubActivity : AppCompatActivity() {
             it.setHomeButtonEnabled(true)
         } ?: IllegalAccessException("Toolbar cannot be null")
 
-        initViews()
+
 
         val detail:String = intent.getStringExtra("detail")
+        val chart = bar_chart
 
 
         val getData : CollectionReference = db.collection(detail)
@@ -112,10 +100,17 @@ class SubActivity : AppCompatActivity() {
                                 it.image = userList.get(i).image
                             }
                             graphDataList.add(data)
+
+                            if(maxNum<data.num){
+                                maxNum=data.num+0f
+                            }
+
                             Log.d(TAG, "graphDataList.get(" + i + ").detail " + userList.get(i).detail)
                             Log.d(TAG, "graphDataList.get(" + i + ").title " + userList.get(i).title)
                             Log.d(TAG, "graphDataList.get(" + i + ").num " + userList.get(i).num)
+                            Log.d(TAG, "graphDataList.size = " + graphDataList.size)
                         }
+                        setBar(chart,graphDataList,maxNum)
                     }
                 } else {
                     Log.d(TAG, "No such document")
@@ -125,48 +120,7 @@ class SubActivity : AppCompatActivity() {
                 Log.d(TAG, "Error getting documents: ", exception)
             }
 
-
-        val chart = bar_chart
-        //表示データ取得
-        chart.data = BarData(getBarData())
-
-        //Y軸(左)の設定
-        chart.axisLeft.apply {
-            axisMinimum = 0f
-            axisMaximum = 100f
-            labelCount = 5
-            setDrawTopYLabelEntry(true)
-            setValueFormatter { value, axis -> "" + value.toInt()}
-        }
-
-        //Y軸(右)の設定
-        chart.axisRight.apply {
-            setDrawLabels(false)
-            setDrawGridLines(false)
-            setDrawZeroLine(false)
-            setDrawTopYLabelEntry(true)
-        }
-
-        //X軸の設定
-        val labels = arrayOf("","国語","数学","英語") //最初の””は原点の値
-        chart.xAxis.apply {
-            valueFormatter = IndexAxisValueFormatter(labels)
-            labelCount = 3 //表示させるラベル数
-            position = XAxis.XAxisPosition.BOTTOM
-            setDrawLabels(true)
-            setDrawGridLines(false)
-            setDrawAxisLine(true)
-        }
-
-        //グラフ上の表示
-        chart.apply {
-            setDrawValueAboveBar(true)
-            description.isEnabled = false
-            isClickable = false
-            legend.isEnabled = false //凡例
-            setScaleEnabled(false)
-            animateY(1200, Easing.EasingOption.Linear)
-        }
+        initViews(chart)
 
     }
 
@@ -185,7 +139,7 @@ class SubActivity : AppCompatActivity() {
         return true
     }
 
-    private fun initViews() {
+    private fun initViews(chart: BarChart) {
         val textView:TextView = findViewById<TextView>(R.id.text)
         val textNum: TextView = findViewById(R.id.textnum)
         val textUnit: TextView = findViewById(R.id.textunit)
@@ -361,6 +315,7 @@ class SubActivity : AppCompatActivity() {
 
         button1.setOnClickListener {
             soundPool.play(soundDesition, 1.0f, 1.0f, 0, 0, 1.0f)
+
 
             val getNum = numPicker.value + numPicker1.value * 10 + numPicker2.value * 100 +
                     numPicker3.value * 1000 + numPicker4.value * 10000
@@ -567,27 +522,94 @@ class SubActivity : AppCompatActivity() {
             }
     }
 
-
-    private fun getBarData(): ArrayList<IBarDataSet> {
-        //表示させるデータ
-        Log.d(TAG, "entries!!!!" + graphDataList.size)
-//        var entries= ArrayList<BarEntry>()
-//        if(list.size!=0){
-//            for (i in 0..list.size) {
-//                val num: Float = list.get(i).num + 0.0f
-//                entries = ArrayList<BarEntry>().apply {
-//                    add(BarEntry(i + 0f, num))
-//                }
-//                Log.d(TAG, "entries.get(" + i + ").detail " + entries.get(i).x)
-//                Log.d(TAG, "entries.get(" + i + ").title " + entries.get(i).y)
-//            }
-//        }
-
-        val entries = ArrayList<BarEntry>().apply {
-            add(BarEntry(1f, 60f))
-            add(BarEntry(2f, 80f))
-            add(BarEntry(3f, 70f))
+    private fun setBar(chart:BarChart,graphDataList: ArrayList<DataModel>,setNum:Float){
+        //表示データ取得
+        Log.d(TAG, "pre send graphDataList.size = " + graphDataList.size)
+        chart.data = BarData(getBarData(graphDataList))
+        chart.setBackgroundColor(Color.parseColor("#ffffff"))
+        var setSize : Int =graphDataList.size
+        if(setSize>5){
+            setSize=5
         }
+
+        //Y軸(左)の設定
+        chart.axisLeft.apply {
+            axisMinimum = 0f
+            axisMaximum = setNum
+            labelCount = setSize
+            setDrawTopYLabelEntry(true)
+            setValueFormatter { value, axis -> "" + value.toInt()}
+        }
+
+        //Y軸(右)の設定
+        chart.axisRight.apply {
+            setDrawLabels(false)
+            setDrawGridLines(false)
+            setDrawZeroLine(false)
+            setDrawTopYLabelEntry(true)
+        }
+
+        //X軸の設定
+        val labelsName = arrayListOf<String>("","1つ前","2つ前","3つ前","4つ前","5つ前") //最初の””は原点の値
+        var labels = arrayListOf<String>("")
+        if(setSize!=0){
+            for (i in 0..setSize-1){
+                labels.add(labelsName[setSize-i])
+            }
+        }
+
+        chart.xAxis.apply {
+            valueFormatter = IndexAxisValueFormatter(labels)
+            labelCount = setSize //表示させるラベル数
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawLabels(true)
+            setDrawGridLines(false)
+            setDrawAxisLine(true)
+        }
+
+        //グラフ上の表示
+        chart.apply {
+            setDrawValueAboveBar(true)
+            description.isEnabled = false
+            isClickable = false
+            legend.isEnabled = false //凡例
+            setScaleEnabled(false)
+            animateY(1200, Easing.EasingOption.Linear)
+        }
+    }
+
+
+    private fun getBarData(list:ArrayList<DataModel>): ArrayList<IBarDataSet> {
+        //表示させるデータ
+//        Log.d(TAG, "entries!!!!" + list.size)
+//        Log.d(TAG, "entries!!!!" + list.get(0).num)
+//        Log.d(TAG, "entries!!!!" + list.get(1).num)
+        var setSize = list.size
+
+        var entries = ArrayList<BarEntry>()
+        if (list.size != 0 && list.size <= 5) {
+            for (i in 0..setSize - 1) {
+                val num: Float = list.get(i).num + 0.0f
+                entries.add(BarEntry(i + 1f, num))
+            }
+        }else if(list.size>5){
+            for (i in 1..5) {
+                val num: Float = list.get(list.size-i).num + 0.0f
+                entries.add(BarEntry(i + 0f, num))
+            }
+        }else {
+            entries.add(BarEntry( 1f, 0f))
+        }
+
+
+
+//        val entries = ArrayList<BarEntry>().apply {
+//            add(BarEntry(1f, graphDataList.get(pos-4).num+0f))
+//            add(BarEntry(2f, graphDataList.get(pos-3).num+0f))
+//            add(BarEntry(3f, graphDataList.get(pos-2).num+0f))
+//            add(BarEntry(4f, graphDataList.get(pos-1).num+0f))
+//            add(BarEntry(5f, graphDataList.get(pos).num+0f))
+//        }
 
         val dataSet = BarDataSet(entries, "bar").apply {
             //整数で表示

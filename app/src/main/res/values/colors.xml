@@ -17,4 +17,6 @@
     <color name="cardViewOrenge">#F0A03A</color>
     <color name="cardViewBule">#828DFF</color>
 
+    <color name="myPalet">#123456</color>
+
 </resources>
