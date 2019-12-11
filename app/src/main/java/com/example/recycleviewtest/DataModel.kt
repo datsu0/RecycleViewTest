@@ -8,4 +8,5 @@ class DataModel {
     var num: Int = 0
     var unit: String = "回"
     var image: ImageView? = null
+    var count:Int = 0
 }

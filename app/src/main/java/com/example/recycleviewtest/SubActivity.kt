@@ -46,7 +46,7 @@ class SubActivity : AppCompatActivity() {
     private var soundButton = 0
     private var soundDesition = 0
     private var soundBack = 0
-
+    private var maxCount:Int = 0
 
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,11 +97,16 @@ class SubActivity : AppCompatActivity() {
                                 it.num = userList.get(i).num
                                 it.unit = userList.get(i).unit
                                 it.image = userList.get(i).image
+                                it.count = userList.get(i).count
                             }
                             graphDataList.add(data)
-
+                            //define max value y for graph
                             if(maxNum<data.num){
                                 maxNum=data.num+0f
+                            }
+
+                            if(maxCount<data.count){
+                                maxCount=data.count
                             }
 
                             Log.d(TAG, "graphDataList.get(" + i + ").detail " + userList.get(i).detail)
@@ -328,9 +333,10 @@ class SubActivity : AppCompatActivity() {
             show = getNum + show
             textNum.setText((show+num).toString())
             rewriteDataBase(detail,num+show,unit)
+            maxCount++
+            addDataBase(detail,getNum,unit,maxCount)
+            upDateGraph(chart,getNum,graphDataList,maxCount,maxNum)
 
-            addDataBase(detail,show,unit)
-            upDateGraph(chart,show,graphDataList)
 
             boundAnimation(pulsFab)
             numPicker.run{
@@ -507,12 +513,13 @@ class SubActivity : AppCompatActivity() {
             }
     }
 
-    private fun addDataBase(detail:String,num:Int,unit:String){
+    private fun addDataBase(detail:String,num:Int,unit:String,maxCount:Int){
         val dataMap = hashMapOf(
             "detail" to detail,
             "title" to SimpleDateFormat("yyyy/MM/dd").format(Date()),
             "num" to num,
-            "unit" to unit
+            "unit" to unit,
+            "count" to maxCount
         )
 
         db.collection(detail)
@@ -525,8 +532,22 @@ class SubActivity : AppCompatActivity() {
             }
     }
 
-    private fun upDateGraph(chart: BarChart,addData:Int,graphDataList: ArrayList<DataModel>){
-
+    private fun upDateGraph(chart: BarChart,addData:Int,graphDataList: ArrayList<DataModel>,maxCount:Int,maxNum:Float){
+        val data : DataModel = DataModel().also {
+            it.detail = "tmp"
+            it.title = "tmp"
+            it.num = addData
+            it.unit = "tmp"
+            it.image = null
+            it.count = maxCount
+        }
+        if(maxNum<addData){
+            graphDataList.add(data)
+            setBar(chart,graphDataList,addData+0f)
+        }else{
+            graphDataList.add(data)
+            setBar(chart,graphDataList,maxNum)
+        }
 
     }
 
@@ -594,6 +615,11 @@ class SubActivity : AppCompatActivity() {
 //        Log.d(TAG, "entries!!!!" + list.get(1).num)
         var setSize = list.size
 
+        Collections.sort(list,PersonComparator())
+        for (i in 0..list.size-1){
+                    Log.d(TAG, "is sorted list ?" + list.get(i).count)
+        }
+
         var entries = ArrayList<BarEntry>()
         if (list.size != 0 && list.size <= 5) {
             for (i in 0..setSize - 1) {
@@ -603,13 +629,11 @@ class SubActivity : AppCompatActivity() {
         }else if(list.size>5){
             for (i in 1..5) {
                 val num: Float = list.get(list.size-i).num + 0.0f
-                entries.add(BarEntry(i + 0f, num))
+                entries.add(BarEntry( 6f-i, num))
             }
         }else {
             entries.add(BarEntry( 1f, 0f))
         }
-
-
 
 //        val entries = ArrayList<BarEntry>().apply {
 //            add(BarEntry(1f, graphDataList.get(pos-4).num+0f))
@@ -662,4 +686,11 @@ class SubActivity : AppCompatActivity() {
 //            this.imageView = imageView
 //        }
 //    }
+}
+
+class PersonComparator : Comparator<DataModel> {
+
+    override fun compare(p1: DataModel, p2: DataModel): Int {
+        return if (p1.count < p2.count) -1 else 1
+    }
 }

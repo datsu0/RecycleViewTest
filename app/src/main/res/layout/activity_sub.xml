@@ -26,10 +26,11 @@
         android:id="@+id/numBackGround"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:background="@color/cardViewBule"
         android:bottomLeftRadius="10dp"
         android:bottomRightRadius="10dp"
-        android:textSize="250dp"
+        android:textSize="210dp"
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +38,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.142" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bar_chart"
@@ -52,13 +53,14 @@
         android:id="@+id/imageView"
         android:layout_width="145dp"
         android:layout_height="145dp"
+        android:layout_marginTop="65dp"
         android:src="@drawable/ic_yen_sign_solid"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.1"
-        app:layout_constraintHorizontal_bias="0.95"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
 
     <TextView
             android:id="@+id/text"
@@ -106,7 +108,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/subAddColor"
-            android:textSize="170dp"
+            android:textSize="150dp"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingRight="5dp"
