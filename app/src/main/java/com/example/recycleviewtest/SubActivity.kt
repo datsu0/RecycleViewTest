@@ -13,7 +13,6 @@ import android.graphics.Color
 import android.media.AudioAttributes
 import android.net.Uri
 import android.media.SoundPool
-import android.os.HandlerThread
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.Toolbar
@@ -317,6 +316,8 @@ class SubActivity : AppCompatActivity() {
             soundPool.play(soundDesition, 1.0f, 1.0f, 0, 0, 1.0f)
 
 
+            //chart.visibility = GraphView.GONE
+
             val getNum = numPicker.value + numPicker1.value * 10 + numPicker2.value * 100 +
                     numPicker3.value * 1000 + numPicker4.value * 10000
 
@@ -327,7 +328,9 @@ class SubActivity : AppCompatActivity() {
             show = getNum + show
             textNum.setText((show+num).toString())
             rewriteDataBase(detail,num+show,unit)
+
             addDataBase(detail,show,unit)
+            upDateGraph(chart,show,graphDataList)
 
             boundAnimation(pulsFab)
             numPicker.run{
@@ -520,6 +523,11 @@ class SubActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
             }
+    }
+
+    private fun upDateGraph(chart: BarChart,addData:Int,graphDataList: ArrayList<DataModel>){
+
+
     }
 
     private fun setBar(chart:BarChart,graphDataList: ArrayList<DataModel>,setNum:Float){
