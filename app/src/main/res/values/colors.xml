@@ -7,6 +7,11 @@
     <color name="colorAccent">#D81B60</color>
     <color name="textColor">#FAFAFA</color>
     <color name="subAddColor">#FFD0D0</color>
+    <color name="alpha">#4FFFFFFF</color>
+
+    <color name="cardViewOrenge">#F0A03A</color>
+    <color name="cardViewBule">#828DFF</color>
+    <color name="cardViewgray">#6CCA60</color>
 
 
 
@@ -14,9 +19,9 @@
     <color name="blue">#3F51B5</color>
     <color name="red">#FF0000</color>
     <color name="recycle_highlight_color">#FF5F93</color>
-    <color name="cardViewOrenge">#F0A03A</color>
-    <color name="cardViewBule">#828DFF</color>
+
 
     <color name="myPalet">#123456</color>
+
 
 </resources>
