@@ -107,7 +107,6 @@
         app:layout_anchorGravity="top|right|end"
         tools:ignore="MissingConstraints" />
 
-
     <View
         android:id="@+id/spaceText1"
         android:layout_width="380dp"
@@ -137,6 +136,38 @@
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        tools:ignore="MissingConstraints" />-->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="80dp"
+        app:layout_anchor="@id/spaceText2"
+        app:layout_anchorGravity="top|right|end"
+        app:srcCompat="@drawable/ic_counter"
+        fab:fab_size="mini"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/spaceup1"
+        android:layout_width="10dp"
+        android:layout_height="80dp"
+        app:layout_anchor="@id/fab2"
+        app:layout_anchorGravity="top|right|end"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        android:id="@+id/spaceText3"
+        android:layout_width="380px"
+        android:layout_height="60dp"
+        app:layout_anchor="@id/fab2"
+        app:layout_anchorGravity="top|right|end"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="133dp"
+        tools:layout_editor_absoluteY="155dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab2"
@@ -207,35 +238,6 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent" />
 
-    <View
-        android:id="@+id/spaceup2"
-        android:layout_width="10dp"
-        android:layout_height="80dp"
-        app:layout_anchor="@id/fab3"
-        app:layout_anchorGravity="top|right|end"
-        tools:ignore="MissingConstraints" />
 
-    <View
-        android:id="@+id/spaceText3"
-        android:layout_width="380px"
-        android:layout_height="60dp"
-        app:layout_anchor="@id/fab3"
-        app:layout_anchorGravity="top|right|end"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="133dp"
-        tools:layout_editor_absoluteY="155dp" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="80dp"
-        app:layout_anchor="@id/spaceup"
-        app:layout_anchorGravity="top|right|end"
-        app:srcCompat="@drawable/ic_counter"
-        fab:fab_size="mini"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -671,7 +671,7 @@ class SubActivity : AppCompatActivity() {
             //ハイライトさせない
             isHighlightEnabled = false
             //Barの色をセット
-            setColors(intArrayOf(R.color.cardViewBule, R.color.cardViewOrenge, R.color.cardViewBule), this@SubActivity)
+            setColors(intArrayOf(R.color.cardViewBule, R.color.cardViewOrenge, R.color.cardViewGreen), this@SubActivity)
         }
 
         val bars = ArrayList<IBarDataSet>()

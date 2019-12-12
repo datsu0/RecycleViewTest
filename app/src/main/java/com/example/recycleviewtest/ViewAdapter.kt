@@ -28,9 +28,9 @@ class ViewAdapter(private val list: ArrayList<DataModel>, private val listener: 
         holder.numView.text = list[position].num.toString()
         if(list[position].unit=="円"){
             holder.image!!.setImageResource(R.drawable.ic_yen_sign_solid)
-            holder.card.setCardBackgroundColor(Color.parseColor("R.color.cardViewBule"))
+            holder.card.setCardBackgroundColor(Color.parseColor("#F0A03A"))
         }else if(list[position].unit=="回"){
-            holder.image!!.setImageResource(R.drawable.ic_countbyline)
+            holder.image!!.setImageResource(R.drawable.ic_counter_conpornent)
             holder.card.setCardBackgroundColor(Color.parseColor("#6CCA60"))
         }else{
             holder.image!!.setImageResource(R.drawable.ic_clock_regular)
