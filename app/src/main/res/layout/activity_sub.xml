@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/themeColor"
+    android:background="#ffffff"
     android:fitsSystemWindows="true"
     android:gravity="center"
     android:orientation="vertical">
@@ -26,7 +26,7 @@
         android:id="@+id/numBackGround"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="55dp"
         android:background="@color/cardViewBule"
         android:bottomLeftRadius="10dp"
         android:bottomRightRadius="10dp"

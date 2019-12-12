@@ -204,8 +204,11 @@ class SubActivity : AppCompatActivity() {
 
         pulsFab.setOnClickListener {
             soundPool.play(soundButton, 1.0f, 1.0f, 0, 0, 1.0f)
+
+
             if(flag==0){
                 boundSmallAnimation(pulsFab)
+                chart.visibility = GraphView.GONE
                 numPicker.run{
                     visibility = View.VISIBLE
                     val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
@@ -258,6 +261,7 @@ class SubActivity : AppCompatActivity() {
 
                 flag=1
             }else{
+                chart.visibility = GraphView.VISIBLE
                 boundAnimation(pulsFab)
                 numPicker.run{
                     visibility = View.GONE
@@ -321,7 +325,7 @@ class SubActivity : AppCompatActivity() {
             soundPool.play(soundDesition, 1.0f, 1.0f, 0, 0, 1.0f)
 
 
-            //chart.visibility = GraphView.GONE
+            chart.visibility = GraphView.VISIBLE
 
             val getNum = numPicker.value + numPicker1.value * 10 + numPicker2.value * 100 +
                     numPicker3.value * 1000 + numPicker4.value * 10000
@@ -556,6 +560,24 @@ class SubActivity : AppCompatActivity() {
         Log.d(TAG, "pre send graphDataList.size = " + graphDataList.size)
         chart.data = BarData(getBarData(graphDataList))
         chart.setBackgroundColor(Color.parseColor("#ffffff"))
+        //setNum redefine
+        Collections.sort(graphDataList,CountComparator())
+        var num:Int=0
+        if(graphDataList.size>=5){
+            for(i in 1..5){
+                if(num<graphDataList.get(graphDataList.size-i).num){
+                    num = graphDataList.get(graphDataList.size-i).num
+                }
+            }
+        }else{
+            for(i in 1..graphDataList.size){
+                if(num<graphDataList.get(graphDataList.size-i).num){
+                    num = graphDataList.get(graphDataList.size-i).num
+                }
+            }
+        }
+
+
         var setSize : Int =graphDataList.size
         if(setSize>5){
             setSize=5
@@ -564,7 +586,7 @@ class SubActivity : AppCompatActivity() {
         //Y軸(左)の設定
         chart.axisLeft.apply {
             axisMinimum = 0f
-            axisMaximum = setNum
+            axisMaximum = num+0f
             labelCount = setSize
             setDrawTopYLabelEntry(true)
             setValueFormatter { value, axis -> "" + value.toInt()}
@@ -615,7 +637,7 @@ class SubActivity : AppCompatActivity() {
 //        Log.d(TAG, "entries!!!!" + list.get(1).num)
         var setSize = list.size
 
-        Collections.sort(list,PersonComparator())
+        Collections.sort(list,CountComparator())
         for (i in 0..list.size-1){
                     Log.d(TAG, "is sorted list ?" + list.get(i).count)
         }
@@ -688,9 +710,15 @@ class SubActivity : AppCompatActivity() {
 //    }
 }
 
-class PersonComparator : Comparator<DataModel> {
-
+class CountComparator : Comparator<DataModel> {
     override fun compare(p1: DataModel, p2: DataModel): Int {
         return if (p1.count < p2.count) -1 else 1
+    }
+}
+
+class NumComparator : Comparator<DataModel> {
+
+    override fun compare(p1: DataModel, p2: DataModel): Int {
+        return if (p1.num < p2.num) -1 else 1
     }
 }
