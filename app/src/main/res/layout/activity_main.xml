@@ -142,10 +142,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="80dp"
-        app:layout_anchor="@id/spaceText2"
+        android:layout_marginBottom="210dp"
+        app:layout_anchor="@id/spaceup"
         app:layout_anchorGravity="top|right|end"
-        app:srcCompat="@drawable/ic_counter"
+        app:srcCompat="@drawable/ic_countbutton"
         fab:fab_size="mini"
         tools:ignore="MissingConstraints"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -176,7 +176,7 @@
         android:layout_centerInParent="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="145dp"
-        app:layout_anchor="@id/spaceText1"
+        app:layout_anchor="@id/spaceup"
         app:layout_anchorGravity="top|right|end"
         app:srcCompat="@drawable/ic_monetization_on_black_24dp"
         fab:fab_label="使ったお金"
@@ -189,19 +189,9 @@
         android:id="@+id/spaceup"
         android:layout_width="10dp"
         android:layout_height="80dp"
-        app:layout_anchor="@id/fab2"
         app:layout_anchorGravity="top|right|end"
         tools:ignore="MissingConstraints" />
 
-    <View
-        android:id="@+id/spaceText2"
-        android:layout_width="380px"
-        android:layout_height="60dp"
-        app:layout_anchor="@id/fab2"
-        app:layout_anchorGravity="top|right|end"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="133dp"
-        tools:layout_editor_absoluteY="155dp" />
 
 <!--    <TextView-->
 <!--        android:id="@+id/fabtext2"-->

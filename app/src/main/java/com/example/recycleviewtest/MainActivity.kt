@@ -136,6 +136,7 @@ class MainActivity : AppCompatActivity() {
         val fabMain:View = findViewById<FloatingActionButton>(R.id.fabMain)
         val fab1:View = findViewById(R.id.fab1)
         val fab2:View = findViewById<FloatingActionButton>(R.id.fab2)
+        val fab3:View = findViewById(R.id.fab3)
         val fabBack:View = findViewById(R.id.fabBack)
 //        val text1:TextView = findViewById(R.id.fabtext1)
 //        val text2:TextView = findViewById(R.id.fabtext2)
@@ -143,6 +144,7 @@ class MainActivity : AppCompatActivity() {
         fabMain.visibility = View.VISIBLE
         fab1.visibility = View.GONE
         fab2.visibility = View.GONE
+        fab3.visibility = View.GONE
         fabBack.visibility = View.GONE
 //        text1.visibility = View.GONE
 //        text2.visibility = View.GONE
@@ -154,6 +156,7 @@ class MainActivity : AppCompatActivity() {
             fabMain.visibility = View.GONE
             fab1.visibility = View.VISIBLE
             fab2.visibility = View.VISIBLE
+            fab3.visibility = View.VISIBLE
             fabBack.visibility = View.VISIBLE
 //            text1.visibility = View.VISIBLE
 //            text2.visibility = View.VISIBLE
@@ -170,6 +173,7 @@ class MainActivity : AppCompatActivity() {
                 fabMain.visibility = View.VISIBLE
                 fab1.visibility = View.GONE
                 fab2.visibility = View.GONE
+                fab3.visibility = View.GONE
                 fabBack.visibility = View.GONE
 //                text1.visibility = View.GONE
 //                text2.visibility = View.GONE
@@ -177,12 +181,13 @@ class MainActivity : AppCompatActivity() {
 
             fab1.setOnClickListener { v ->
                 soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1.0f)
-                val unitlist = arrayOf("時間","分","回")
-                var unit:String = ""
+//                val unitlist = arrayOf("時間","分","回")
+//                var unit:String = ""
+                val unit:String = "時間"
                 val editText = EditText(this@MainActivity)
                 AlertDialog.Builder(this) // FragmentではActivityを取得して生成
                     .setTitle("追加")
-                    .setMessage("何をしたか入力")
+                    .setMessage("何を？時間したか入力")
                     .setView(editText)
                     .setPositiveButton("OK") { dialog, which ->
                         if (editText.text.toString() == "" == true) {
@@ -198,22 +203,23 @@ class MainActivity : AppCompatActivity() {
                     }
                     .show()
 
-                AlertDialog.Builder(this)
-                    .setTitle("単位の選択")
-                    .setItems(unitlist){dialog, which ->
-                        if(which==0){
-                            unit = "時間"
-                        }else if(which==1){
-                            unit = "分"
-                        }else{
-                            unit = "回"
-                        }
-                    }
-                    .show()
+//                AlertDialog.Builder(this)
+//                    .setTitle("単位の選択")
+//                    .setItems(unitlist){dialog, which ->
+//                        if(which==0){
+//                            unit = "時間"
+//                        }else if(which==1){
+//                            unit = "分"
+//                        }else{
+//                            unit = "回"
+//                        }
+//                    }
+//                    .show()
 
                 fabMain.visibility = View.VISIBLE
                 fab1.visibility = View.GONE
                 fab2.visibility = View.GONE
+                fab3.visibility = View.GONE
                 fabBack.visibility = View.GONE
 //                text1.visibility = View.GONE
 //                text2.visibility = View.GONE
@@ -224,7 +230,7 @@ class MainActivity : AppCompatActivity() {
                 val editText = EditText(this@MainActivity)
                 AlertDialog.Builder(this) // FragmentではActivityを取得して生成
                     .setTitle("追加")
-                    .setMessage("何をしたか入力")
+                    .setMessage("何を？円使ったか入力")
                     .setView(editText)
                     .setPositiveButton("OK") { dialog, which ->
                         if (editText.text.toString() == "" == true) {
@@ -243,6 +249,36 @@ class MainActivity : AppCompatActivity() {
                 fabMain.visibility = View.VISIBLE
                 fab1.visibility = View.GONE
                 fab2.visibility = View.GONE
+                fab3.visibility = View.GONE
+                fabBack.visibility = View.GONE
+//                text1.visibility = View.GONE
+//                text2.visibility = View.GONE
+            }
+            fab3.setOnClickListener { v ->
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1.0f)
+                val editText = EditText(this@MainActivity)
+                AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                    .setTitle("追加")
+                    .setMessage("何を？回したか入力")
+                    .setView(editText)
+                    .setPositiveButton("OK") { dialog, which ->
+                        if (editText.text.toString() == "" == true) {
+                            val toast = Toast.makeText(
+                                this@MainActivity,
+                                String.format("fill out blank"),
+                                Toast.LENGTH_LONG
+                            )
+                            toast.setGravity(Gravity.TOP, 0, 150)
+                            toast.show()
+                        }
+                        addDataBase(editText,"回")
+                    }
+                    .show()
+
+                fabMain.visibility = View.VISIBLE
+                fab1.visibility = View.GONE
+                fab2.visibility = View.GONE
+                fab3.visibility = View.GONE
                 fabBack.visibility = View.GONE
 //                text1.visibility = View.GONE
 //                text2.visibility = View.GONE

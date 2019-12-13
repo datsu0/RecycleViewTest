@@ -164,9 +164,12 @@ class SubActivity : AppCompatActivity() {
             imageView!!.setImageResource(R.drawable.ic_yen_sign_solid)
             numBackView.setBackgroundColor(Color.parseColor("#F0A03A"))
 
-        }else{
+        }else if(unit=="時間"){
             imageView!!.setImageResource(R.drawable.ic_clock_regular)
             numBackView.setBackgroundColor(Color.parseColor("#828DFF"))
+        }else{
+            imageView!!.setImageResource(R.drawable.ic_counter_conpornent)
+            numBackView.setBackgroundColor(Color.parseColor("#6CCA60"))
         }
 
         val numPicker: NumberPicker = findViewById<NumberPicker>(R.id.numPicker0) as NumberPicker
