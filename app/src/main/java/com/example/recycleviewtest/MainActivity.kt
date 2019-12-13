@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private var soundItem = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -163,6 +164,7 @@ class MainActivity : AppCompatActivity() {
 
             boundAnimation(fab1)
             boundAnimation(fab2)
+            boundAnimation(fab3)
             boundAnimation(fabBack)
 //            boundAnimation(text1)
 //            boundAnimation(text2)

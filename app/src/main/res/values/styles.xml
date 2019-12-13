@@ -20,7 +20,7 @@
         <item name="android:textColorSecondary">#FFFFFF</item>
     </style>
 
-    <style name="SplashTheme" parent="AppTheme">
+    <style name="AppTheme.Launcher" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splush</item>
     </style>
 
