@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_splash)
+        setContentView(R.layout.activity_splash)
 
         // スプラッシュ表示1000ms(1秒)後にrunnableを呼んでMeinActivityへ遷移させる
         handler.postDelayed(runnable, 1000)

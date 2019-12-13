@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#222A3C</color>
     <color name="themeColor">#222A3C</color>
 
+    <color name="splushColor">#3a4750</color>
+
+
     <color name="colorAccent">#D81B60</color>
     <color name="textColor">#FAFAFA</color>
     <color name="subAddColor">#FFD0D0</color>
