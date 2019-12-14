@@ -211,14 +211,7 @@ class SubActivity : AppCompatActivity() {
 
             if(flag==0){
                 boundSmallAnimation(pulsFab)
-                //chart.visibility = GraphView.GONE
-                chart.run{
-                    visibility = GraphView.GONE
-                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
-                    postDelayed({
-                        startAnimation(animation)
-                    }, 100)
-                }
+                chart.visibility = GraphView.GONE
 
                 numPicker.run{
                     visibility = View.VISIBLE
@@ -227,6 +220,7 @@ class SubActivity : AppCompatActivity() {
                         startAnimation(animation)
                     }, 100)
                 }
+
                 numPicker1.run{
                     visibility = View.VISIBLE
                     val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
@@ -272,15 +266,17 @@ class SubActivity : AppCompatActivity() {
 
                 flag=1
             }else{
-                //chart.visibility = GraphView.VISIBLE
-                chart.run{
-                    visibility = GraphView.VISIBLE
-                    val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
-                    postDelayed({
-                        startAnimation(animation)
-                    }, 100)
-                }
+                chart.visibility = GraphView.VISIBLE
                 boundAnimation(pulsFab)
+//                numPicker.visibility = View.GONE
+//                numPicker1.visibility = View.GONE
+//                numPicker2.visibility = View.GONE
+//                numPicker3.visibility = View.GONE
+//                numPicker4.visibility = View.GONE
+//                button1.visibility = View.GONE
+//                background.visibility = View.GONE
+
+
                 numPicker.run{
                     visibility = View.GONE
                     val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
@@ -343,14 +339,7 @@ class SubActivity : AppCompatActivity() {
             soundPool.play(soundDesition, 1.0f, 1.0f, 0, 0, 1.0f)
 
 
-            //chart.visibility = GraphView.VISIBLE
-            chart.run{
-                visibility = GraphView.VISIBLE
-                val animation = AnimationUtils.loadAnimation(context, R.anim.alpha)
-                postDelayed({
-                    startAnimation(animation)
-                }, 100)
-            }
+            chart.visibility = GraphView.VISIBLE
 
             val getNum = numPicker.value + numPicker1.value * 10 + numPicker2.value * 100 +
                     numPicker3.value * 1000 + numPicker4.value * 10000
@@ -368,6 +357,13 @@ class SubActivity : AppCompatActivity() {
 
 
             boundAnimation(pulsFab)
+//            numPicker.visibility = View.GONE
+//            numPicker1.visibility = View.GONE
+//            numPicker2.visibility = View.GONE
+//            numPicker3.visibility = View.GONE
+//            numPicker4.visibility = View.GONE
+//            button1.visibility = View.GONE
+//            background.visibility = View.GONE
             numPicker.run{
                 visibility = View.GONE
                 val animation = AnimationUtils.loadAnimation(context, R.anim.backalpha)
